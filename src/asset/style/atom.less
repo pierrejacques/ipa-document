@@ -1,0 +1,25 @@
+@import url(./variable.less);
+
+.box {
+    background: white;
+    box-shadow: 0 5px 10px #6664;
+}
+
+.btn {
+    @height: 36px;
+    display: inline-block;
+    padding: 10px 30px;
+    border-radius: 7px;
+    height: @height;
+    line-height: @height;
+    background: @light-color;
+    color: @dark-color;
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    &.dark {
+        color: white;
+        background: @dark-color;
+    }
+}

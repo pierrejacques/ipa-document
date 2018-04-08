@@ -10,6 +10,11 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "ipa.js": "^3.1.0-beta",
+    "less": "^3.0.1",
+    "less-loader": "^4.1.0",
+    "showdown": "^1.8.6",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },

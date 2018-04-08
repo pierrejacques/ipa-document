@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Intro from '@/pages/Intro'
-import Doc from '@/pages/Document'
+import Doc from '@/pages/Document/index'
 
 Vue.use(Router)
 
