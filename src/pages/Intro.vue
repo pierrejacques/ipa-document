@@ -1,7 +1,7 @@
 <template>
     <div class="intro-page">
         <header class="header box">
-            <img src="../asset/img/logo.svg" class="logo" alt="">
+            <!-- <img src="../asset/img/logo.svg" class="logo" alt=""> -->
             <hgroup class="hgroup">
                 <h1 class="title">IPA.js</h1>
                 <h2 class="sub-title">javascript声明式数据结构校验库</h2>
@@ -41,6 +41,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import url(../asset/style/variable.less);
 @import url(../asset/style/atom.less);
 
 .intro-page {
@@ -58,13 +59,14 @@ export default {
         padding: 10px @margin;
         .hgroup {
             flex-grow: 1;
-            margin-left: 20px;
-            // border-left: 2px solid #ccc;
+            // margin-left: 20px;
+            padding-left: 20px;
+            // border-left: 5px solid @light-color;
         }
         .title {
             margin: 0;
             font-size: 30px;
-            font-weight: 400;
+            font-weight: 800;
             // font-family: serif;
             color: #666;
         }
