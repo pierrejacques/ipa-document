@@ -20,7 +20,6 @@ export default {
 <style lang="less" scoped>
 .markdown-wrapper {
     display: inline-block;
-    padding: 30px 50px 30vh;
+    padding: 0 0 30vh;
 }
-
 </style>

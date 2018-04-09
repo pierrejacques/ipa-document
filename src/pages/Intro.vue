@@ -64,7 +64,8 @@ export default {
         .title {
             margin: 0;
             font-size: 30px;
-            font-weight: 800;
+            font-weight: 400;
+            // font-family: serif;
             color: #666;
         }
         .sub-title {

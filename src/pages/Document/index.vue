@@ -49,9 +49,14 @@ export default {
         }
     }
 
+    .aside {
+        z-index: 1;
+    }
+
     .content {
         height: 100vh;
         overflow: auto;
+        padding: 100px 0 0;
     }
     
 }

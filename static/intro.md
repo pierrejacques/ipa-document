@@ -1,28 +1,15 @@
-### 安装与引用
-
-IPA.js是一个数据结构校验库，可以同时运行于浏览器端和node环境。
-
-通过npm或yarn来安装它：
-
 ```bash
-npm i ipa.js -D
-
-yarn add ipa.js
+$ npm i ipa.js -D
 ```
 
-在项目中通过ES6 import语法或是require语法引用它：
+
+### 简介与基本用法
+
+IPA.js是一个数据结构校验库，可以同时运行于浏览器端和node环境。它通过一种类似`Mongoose.Schema`的语法来声明对数据的校验规则并创建实例：
 
 ```javascript
-import IPA from 'ipa.js'; // ES6 module语法
+import IPA from 'ipa.js';
 
-const IPA = require('ipa.js'); // commonjs语法
-```
-
-### 作用与基本用法
-
-IPA.js的核心功能围绕数据校验展开，它通过一种类似Mongoose.Schema的语法来声明对数据结构的要求并创建实例：
-
-```javascript
 const personSchema = new IPA({
     name: String,
     age: Number,
@@ -30,7 +17,7 @@ const personSchema = new IPA({
 });
 ```
 
-通过**check**，**guarantee**，**mock**三种方法来分别实现对数据的深层**校验**，**保障**和**自动生成**：
+IPA实例通过**check**，**guarantee**，**mock**三种方法来分别实现对数据的深层**校验**，**保障**和**自动生成**：
 
 - check方法校验数据结构的合法性：
 
