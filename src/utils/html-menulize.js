@@ -1,3 +1,12 @@
+const getName = (str, tag) => {
+    const last = arr => arr[arr.length - 1];
+    let temp = str.match(new RegExp(`>(.+)<\/${tag}>`))[1];
+    ['、', ',', '.'].forEach(ch => {
+        temp = last(temp.split(ch));
+    });
+    return temp;
+}
+
 const mark = ({
     text,
     tags,
@@ -9,8 +18,7 @@ const mark = ({
     const tag = tags[0];
     return text.split(`<${tag}`).reduce((str, current, i) => {
         if (i > 0) {
-            const temp = current.match(new RegExp(`>(.+)<\/${tag}>`))[1].split('、');
-            const name = temp[temp.length - 1]; // 去除标号
+            const name = getName(current, tag);
             const frac = fracPre === null ? name : `${fracPre}-${name}`;
             const anchor = anchorPre === null ? `${i}` : `${anchorPre}-${i}`;
             const insert = `<${tag} ${attr}="${anchor}"`;
@@ -37,17 +45,14 @@ const mark = ({
     }, '');
 };
 
-module.exports = (tags, attr = 'data-anchor', callback) => ({
-    type: 'output',
-    filter(text) {
-        const rootMenu = [];
-        const result = mark({
-            text,
-            tags,
-            attr,
-            list: rootMenu,
-        });
-        callback(rootMenu);
-        return result;
-    },
-});
+module.exports = (text, tags, { attr = 'data-anchor', callback = null }) => {
+    const rootMenu = [];
+    const result = mark({
+        text,
+        tags,
+        attr,
+        list: rootMenu,
+    });
+    if (callback) callback(rootMenu);
+    return result;
+}

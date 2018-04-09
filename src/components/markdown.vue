@@ -3,24 +3,25 @@
 </template>
 
 <script>
-import showdown from 'showdown';
-import highlight from 'showdown-highlight';
-import menulize from '@/utils/showdown-menulize';
+import MarkdownIt from 'markdown-it';
+import hljs from 'highlight.js';
+import menulize from '@/utils/html-menulize';
+
+const md = new MarkdownIt({
+    highlight: (str, lang) => lang ? hljs.highlight(lang, str).value : '',
+});
 
 export default {
     name: 'markdown',
     props: ['input'],
     computed: {
         html() {
-            const converter = new showdown.Converter({
-                extensions: [
-                    highlight,
-                    menulize(['h2', 'h3', 'h4'], 'data-anchor', (menu) => {
-                        this.$emit('ready', menu);
-                    }),
-                ],
+            return menulize(md.render(this.input), ['h2', 'h3', 'h4'], {
+                attr: 'data-anchor',
+                callback: (menu) => {
+                    this.$emit('ready', menu);
+                }
             });
-            return converter.makeHtml(this.input);
         }
     }
 }
