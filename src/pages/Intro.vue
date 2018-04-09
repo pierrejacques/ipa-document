@@ -55,7 +55,7 @@ export default {
         justify-content: space-between;
         align-items: center;
         background: white;
-        height: 110px;
+        height: 90px;
         padding: 10px @margin;
         .hgroup {
             flex-grow: 1;
@@ -68,14 +68,14 @@ export default {
             font-size: 30px;
             font-weight: 800;
             // font-family: serif;
-            color: #666;
+            color: #4d4d4d;
         }
         .sub-title {
             margin: 0;
             line-height: 26px;
             font-size: 14px;
             font-weight: 400;
-            color: #aaa;
+            color: #8a8a8a;
         }
     }
 

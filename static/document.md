@@ -696,20 +696,18 @@ IPA.inject('/api/getDetail', {
     name: String,
     value: Number,
 });
-...
+
 
 // index.js
 import IPA from 'IPA';
 import Ajax from 'ajax'; // 某个异步请求库
 
-...
 const url = '/api/getList';
 Ajax.get(url).then(
     res => {
         this.data = IPA.getInstance(url).guarantee(res.data);
     }
-)
-...
+);
 ```
 
 ### 与MV*框架的配合使用
@@ -733,9 +731,10 @@ props: {
 
  对于后者，若另一端接口还在开发阶段，可以在Promise的reject回调中使用：
  
- ```javascript
- ...
- .then(
+```javascript
+...
+
+.then(
     res => {
         this.data = dataSchema.guarantee(res.data); // 或用check
         // 其他操作
@@ -744,9 +743,10 @@ props: {
         this.data = dataSchema.mock();
         // 其他报错处理
     }
- );
- ...
- ```
+);
+
+...
+```
  
  对以上两种用法，均可以直接通过`IPA.isProductionEnv = true`的全局设置实现无改动上线。
  
