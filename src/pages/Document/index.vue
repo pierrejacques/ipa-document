@@ -1,14 +1,14 @@
 <template>
     <div class="doc-wrapper">
-        <aside class="aside box">
+        <aside class="aside box scroll">
             <header class="header">
                 <router-link to="/">
                     <img src="../../asset/img/logo.svg" class="logo" alt="">
                 </router-link>
             </header>
-            <aside-menu :menu="menu" @select=""/>
+            <aside-menu class="menu" :menu="menu" @select="selectItem"/>
         </aside>
-        <main class="content">
+        <main class="content scroll">
             <md :input="content" @ready="makeMenu"/>
         </main>
     </div>
@@ -39,6 +39,9 @@ export default {
     methods: {
         makeMenu(menu) {
             this.menu = menu;
+        },
+        selectItem(item) {
+            console.log(item.anchor);
         }
     }
 }
@@ -50,21 +53,29 @@ export default {
 .doc-wrapper {
     display: grid;
     grid-template-columns: 300px auto;
+    height: 100vh;
+    @header-h: 150px;
     .header {
+        height: @header-h;
         .logo {
-            width: 60%;
+            height: 80%;
         }
     }
 
+    .menu {
+        height: calc(100% - @header-h);
+    }
+
     .aside {
+        max-height: 100%;
         z-index: 1;
     }
 
     .content {
-        height: 100vh;
-        overflow: auto;
         padding: 50px 0 0;
     }
+
+
     
 }
 </style>
