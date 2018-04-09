@@ -3,7 +3,7 @@ $ npm i ipa.js
 ```
 
 
-### 简介与基本用法
+### 基本用法
 
 IPA.js是一个javascript声明式数据结构校验库，可以同时运行于浏览器端和node环境。它通过一种类似`Mongoose.Schema`的语法来声明对数据的校验规则并创建实例：
 

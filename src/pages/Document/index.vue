@@ -5,19 +5,8 @@
                 <router-link to="/">
                     <img src="../../asset/img/logo.svg" class="logo" alt="">
                 </router-link>
-                <ul>
-                    <li v-for="(item, i) in menu" :key="i">
-                        {{item.name}}
-                        <ul v-if="item.children && item.children.length">
-                            <li v-for="(sub, j) in item.children" :key="j">
-                                {{sub.name}}
-                                
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
             </header>
-            <div class="list"></div>
+            <aside-menu :menu="menu" @select=""/>
         </aside>
         <main class="content">
             <md :input="content" @ready="makeMenu"/>
@@ -27,12 +16,14 @@
 
 <script>
 import axios from 'axios';
-import md from '@/components/markdown';
+import Md from '@/components/markdown';
+import Menu from './menu';
 
 export default {
     name: 'document',
     components: {
-        md,
+        'md': Md,
+        'aside-menu': Menu,
     },
     data() {
         return {
