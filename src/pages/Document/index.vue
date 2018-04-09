@@ -5,12 +5,22 @@
                 <router-link to="/">
                     <img src="../../asset/img/logo.svg" class="logo" alt="">
                 </router-link>
-                
+                <ul>
+                    <li v-for="(item, i) in menu" :key="i">
+                        {{item.name}}
+                        <ul v-if="item.children && item.children.length">
+                            <li v-for="(sub, j) in item.children" :key="j">
+                                {{sub.name}}
+                                
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </header>
             <div class="list"></div>
         </aside>
         <main class="content">
-            <md :input="content"/>
+            <md :input="content" @ready="makeMenu"/>
         </main>
     </div>
 </template>
@@ -27,12 +37,18 @@ export default {
     data() {
         return {
             content: '',
+            menu: [],
         };
     },
     created() {
         axios.get('static/document.md').then(res => {
             this.content = res.data;
         })
+    },
+    methods: {
+        makeMenu(menu) {
+            this.menu = menu;
+        }
     }
 }
 </script>

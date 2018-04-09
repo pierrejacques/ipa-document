@@ -1,19 +1,25 @@
 <template>
     <div class="markdown-body markdown-wrapper" v-html="html"></div>
 </template>
+
 <script>
 import showdown from 'showdown';
-import highlight from 'showdown-highlight'
-
-const converter = new showdown.Converter({
-    extensions: [highlight]
-});
+import highlight from 'showdown-highlight';
+import menulize from '@/utils/showdown-menulize';
 
 export default {
     name: 'markdown',
     props: ['input'],
     computed: {
         html() {
+            const converter = new showdown.Converter({
+                extensions: [
+                    highlight,
+                    menulize(['h2', 'h3', 'h4'], 'data-anchor', (menu) => {
+                        this.$emit('ready', menu);
+                    }),
+                ],
+            });
             return converter.makeHtml(this.input);
         }
     }

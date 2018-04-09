@@ -97,7 +97,7 @@ schema.mock({}, true); // []
 ## 二、校验规则声明语法
 
 ### 数字
-- Number
+#### Number
 
 用`Number`声明一个数字类型。
 
@@ -118,7 +118,7 @@ num.mock(); // 4 (随机值)
 num.mock({}, true); // 0
 ```
 
-- 数字默认值
+#### 数字默认值
 
 用 _一个数字_ 声明一个具有默认值的数字类型。
 
@@ -140,7 +140,7 @@ num.mock({}, true); // -1
 
 
 ### 字符串
-- String
+#### String
 
 用`String`声明一个字符串类型。
 
@@ -161,7 +161,7 @@ str.mock(); // 'ad' (随机值)
 str.mock({}, true); // ''
 ```
 
-- 字符串默认值
+#### 字符串默认值
 
 用 _一个字符串_ 声明一个具有默认值的字符串类型。
 
@@ -182,7 +182,7 @@ str.mock({}, true); // '--'
 ```
 
 ### 布尔
-- Boolean
+#### Boolean
 
 用`Boolean`声明一个布尔类型。
 
@@ -202,7 +202,7 @@ bool.mock(); // true (随机值)
 bool.mock({}, true); // false
 ```
 
-- 布尔默认值
+#### 布尔默认值
 
 用 _一个布尔值_ 声明一个具有默认值的布尔类型。
 
@@ -223,7 +223,7 @@ bool.mock({}, true); // true
 ```
 
 ### 对象
-- Object
+#### Object
 
 用`Object`生明一个对象类型，即PlainObject。
 
@@ -239,7 +239,7 @@ obj.mock(); // {}
 obj.mock({}, true); // {}
 ```
 
-- 属性校验
+#### 对象属性校验
 
 用一个普通对象嵌套声明对对象属性的要求。check方法只在属性全部合法时返回`true`，guarantee和mock方法都对每个属性迭代执行校验。没有声明结构的属性将不受影响。
 
@@ -254,7 +254,7 @@ obj.mock({}, true); // { name: '', value: -1 }
 ```
 
 ### 数组
-- Array
+#### Array
 
 用`Array`生明一个数组类型。
 
@@ -276,7 +276,7 @@ arr.mock(); // []
 arr.mock({}, true); // []
 ```
 
-- 通项校验
+#### 通项校验
 
 通过一个数组级其**首项**声明对数组的每一项的数据要求。
 check方法逐一检查输入数组的每一项（如果是数组的话），在全部合法时返回`true`。
@@ -293,7 +293,7 @@ arr.mock(); // [3, 1, 5, 8] (随机值)
 arr.mock({}, true); // []
 ```
 
-- 长度校验
+#### 长度校验
 
 通过一个数组的**第二项**声明对数组的长度要求。长度参数可以是一个字符串也可以是一个非负整数。后者将声明一个具有固定长度的数组校验规则，前者将表明一种长度相等的关系。长度的check、guarantee和mock都将在对数据的其他校验都执行完后进行。
 
@@ -355,7 +355,7 @@ table.mock({}, true);  //  { thead: [], body: [] }
 
 ### 旁通规则
 
-- null
+#### null
 
 通过声明`null`来要求数据不能是`undefined`。在guarantee遇到`undefined`的时候返回`null`。mock直接返回`null`。
 
@@ -367,7 +367,7 @@ required.guarantee(undefined); // null
 required.mock(); // null
 ```
 
-- undefined
+#### undefined
 
 通过声明`undefined`获得一个真正意义上的旁通规则*bypass*，规则如下：
 
@@ -400,7 +400,7 @@ const schema = new IPA([[Number, 'cols'], 'rows']);
 
 ### 自定义校验
 
-- 规则函数
+#### 规则函数
 
 为了方便理解自定义规则的写法，这里首先要介绍一下IPA嵌套规则校验的实现细节。
 
@@ -450,7 +450,7 @@ function arraySimple (compile) { // 传入编译函数
 }
 ```
 
-- 自定义规则函数
+#### 自定义规则函数
 
 自定义规则只需遵循上述**规则函数**的结构，提供到**规则声明**中即可。如下示例了一个约定的HTTP响应数据的基本结构，以及针对不同响应类型的扩展结构：
 
@@ -494,7 +494,7 @@ function and (...templates) {
 
 为了适应更多的数据校验场景，IPA还内建了一些扩展规则。本质上，这是一系列由IPA本身提供的自定义方法，可通过`IPA[<方法名>]`来获得。
 
-- 整型：Integer
+### 整型：Integer
 
 整型的校验规则与`Number`非常相似
 
@@ -516,7 +516,7 @@ num.mock(); // 4 (随机值)
 num.mock({}, true); // 0
 ```
 
-- 数值范围：Range
+### 数值范围：Range
 
 Range函数用来生成一个数字范围的校验规则。它接受三个参数：`Range(min:number, max:number [, isFloat:boolean = false ]);`
 前两个参数min和max分别用来界定范围的最小和最大值（范围为闭区间），第三个参数isFloat用来改变mock行为，控制它是否生成浮点数，但它**不影响**check和guarantee的行为。
@@ -546,7 +546,7 @@ percentage.mock({}, true); // 0
 ```
 
 
-- 枚举：From
+### 枚举：From
 
 当要求数据必须来自一个特定的有限的集合时，采用From规则。From规则接受任意多个参数组成集合。只要被校验的数据与集合中的某一值相等（对于对象，采用深度比较，只要两个对象的每个属性都一致即认为相等），check方法就返回`true`。
 
@@ -581,7 +581,7 @@ codeSchema.mock(null); // { label: 'Server Error', value: 500 } （随机值）
 codeSchema.mock({}, true); // { label: 'OK', value: 200 } （首项）
 ```
 
-- 字典：Dict
+### 字典：Dict
     
 Dict函数声明一种类似Python中Dict的概念的对象，要求改对象的每个值具有特定的数据结构。它的输入参数即用于声明这种结构：
 check方法只在所有属性合法时返回`true`，guarantee方法遍历所有存在的属性，mock方法在开发环境下返回一个具有随机属性名和属性个数的合法对象，在生产环境下返回一个空对象。
@@ -597,7 +597,7 @@ strDict.mock(); // { 'cillum': 'quis', 'et': 'magna'}（随机值）
 strDict.mock({}, true); // {}
 ```
 
-- 数组逐项：Each
+### 数组逐项：Each
 
 数组逐项规则逐项校验一个数组的每一项，用于数组的每项的数据类型不一致的情况下。它接受两个输入参数：`Each(template:array [, strictLength:boolean = true])`。第一个参数为数组的逐项规则声明，第二个参数为一个布尔值，表明是否对数组的长度进行严格要求，默认值为`true`。
 
@@ -617,7 +617,7 @@ each.mock(); // [4, 'ad']（随机值）
 each.mock({}, true); // [0, '']
 ```
 
-- 或规则：or
+### 或规则：or
 
 或规则允许数据符合多条规则。check方法在符合任意一条规则时即返回`true`，guarantee和mock方法都服从输入的第一条规则。
 
@@ -631,7 +631,7 @@ numOrStr.guarantee(null); // 0
 numOrStr.mock(); // 7（随机值）
 ```
 
-- 类校验：asClass
+### 类校验：asClass
 
 类校验用于标示把输入的函数当成一个类来进行校验。第一个参数为类构造函数，后面的参数为默认输入到这个构造函数的参数。在guarantee输入数据不是该类的实例或mock时，一律返回由默认值构造的实例。
 
@@ -739,7 +739,7 @@ Ajax.get(url).then(
 
 IPA目前针对vue.js框架进行了工程化优化：
 
-- mock的使用
+#### mock的使用
 
 mock主要被用在组件间属性传递和ajax请求返回中。
 对于前者，若上游组件还在同步开发阶段，可以在props中使用：
@@ -776,7 +776,7 @@ props: {
  对以上两种用法，均可以直接通过`IPA.isProductionEnv = true`的全局设置实现无改动上线。
  
 
-- 全局注入语法糖
+#### 全局注入语法糖
 
 通过`Vue.use(IPA)`可以将IPA的`getInstance`方法全局挂载到vue实例下的`$ipa`属性上，从而简化全局调用的语法。
 
