@@ -321,10 +321,13 @@ const data = [
 
 tbody.strategy = 'shortest'; // 默认值
 tbody.guarantee(data); // [[1, 2], [1, 2], [1, 2], [1, 2]]
+
 tbody.strategy = 'longest';
 tbody.guarantee(data); // [[1, 2, 3, 0], [1, 2, 3, 0], [1, 2, 0, 0], [1, 2, 3, 4]]
+
 tbody.strategy = 'average';
 tbody.guarantee(data); // [[1, 2, 3], [1, 2, 3], [1, 2, 0], [1, 2, 3]]
+
 tbody.strategy = 'most';
 tbody.guarantee(data); // [[1, 2, 3], [1, 2, 3], [1, 2, 0], [1, 2, 3]]
 ```
