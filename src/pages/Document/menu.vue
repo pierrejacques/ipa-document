@@ -1,8 +1,4 @@
 <template>
-    <div class="menu">
-        <label class="label" for="">
-            <input type="text">
-        </label>
         <div class="scroll">
             <ul class="menu-list ul-1">
                 <li class="li-1" 
@@ -30,7 +26,6 @@
                 </li>
             </ul>
         </div>
-    </div>
 </template>
 
 <script>
@@ -109,7 +104,7 @@ ul {
     font-size: 12px;
 }
 
-.menu {
+
     .label {
         font-weight: 800;
         color: #aaa; 
@@ -126,6 +121,6 @@ ul {
         padding-left: 30px;
         padding-bottom: 100px;
     }
-}
+
 
 </style>

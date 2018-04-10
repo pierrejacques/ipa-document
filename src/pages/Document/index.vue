@@ -6,9 +6,12 @@
                     <img src="../../asset/img/logo.svg" class="logo" alt="">
                 </router-link>
             </header>
-            <aside-menu class="menu" :menu="menu" @select="selectItem"/>
+            <label class="label" for="">
+                <input type="text">
+            </label>
+            <aside-menu class="menu" :menu="menu" @select="selectMenu"/>
         </aside>
-        <main class="content scroll" id="iscroll" @wheel.passive="onWheel">
+        <main ref="content" class="content scroll" @wheel.passive="onWheel" @click.stop="clickContent">
             <md :input="content" @ready="makeMenu"/>
         </main>
     </div>
@@ -24,6 +27,7 @@ import { setTimeout } from 'timers';
 let scroller = null;
 let lastWidth;
 let posIdx = 0;
+let doms = null;
 let linearMenu = []; // 存放页面锚点位置
 
 function updateLinear (menu) {
@@ -42,8 +46,14 @@ function updateLinear (menu) {
 
 function updatePosition () {
     const attr = 'data-anchor';
-    [...document.querySelectorAll(`[${attr}]`)].forEach((i, idx) => {
-        linearMenu[idx].position = i.offsetTop
+    if (doms === null) {
+        doms = [...document.querySelectorAll(`[${attr}]`)];
+        doms.forEach((dom, idx) => {
+            dom.info = linearMenu[idx];
+        })
+    }
+    doms.forEach((i, idx) => {
+        linearMenu[idx].position = i.offsetTop;
     });
 }
 
@@ -80,32 +90,34 @@ export default {
             this.current = menu[0];
             this.$nextTick(() => {
                 updateLinear(menu);
-                scroller = new IScroll('#iscroll');
-                // console.log(scroller);
-                // scroller.on('scrollEnd', (e) => {
-                //     console.log(e);
-                // });
+                scroller = new IScroll(this.$refs.content);
             });
         },
-        selectItem(item) {
+        selectMenu(item) {
             console.log(item.anchor);
         },
-        onWheel(event) {
-            console.log(scroller)
-            // if (this.ready) {
-            //     console.log(event);
-                // const pos = event.target;
-                // if (pos > this.current.position && posIdx < linearMenu.length - 1) {
-                //     posIdx = posIdx + 1;
-                //     this.current = linearMenu[posIdx];
-                //     // console.log(this.current.name);
-                // }
-                // if (pos < this.current.position && posIdx > 0) {
-                //     posIdx = posIdx - 1;
-                //     this.current = linearMenu[posIdx];
-                //     // console.log(this.current.name);
-                // }
-            // }
+        clickContent(e) {
+            const target = e.target;
+            if (target.info) {
+                this.current = target.info;
+                location.hash = '#/' + location.hash.split('#/')[1].split('#')[0] +
+                    '#' + target.info.frac; // set fraction
+            }
+        },
+        onWheel() {
+            if (this.ready) {
+                const pos = this.$refs.content.scrollTop + 100;
+                if (posIdx < linearMenu.length - 1 && pos > linearMenu[posIdx + 1].position) {
+                    posIdx = posIdx + 1;
+                    this.current = linearMenu[posIdx];
+                    return;
+                }
+                if (pos < this.current.position && posIdx > 0) {
+                    posIdx = posIdx - 1;
+                    this.current = linearMenu[posIdx];
+                    return;
+                }
+            }
         },
     }
 }
@@ -118,6 +130,7 @@ export default {
     display: grid;
     grid-template-columns: 300px auto;
     height: 100vh;
+    overflow: hidden;
     @header-h: 150px;
     .header {
         height: @header-h;
@@ -133,6 +146,7 @@ export default {
     .aside {
         max-height: 100%;
         z-index: 1;
+        overflow: hidden;
     }
 
     .content {
