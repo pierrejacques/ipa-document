@@ -9,7 +9,7 @@
             <label class="label" for="">
                 <input type="text">
             </label>
-            <aside-menu class="menu" :menu="menu" @select="selectMenu"/>
+            <aside-menu class="menu" :menu="menu" :current="current" @select="scrollTo"/>
         </aside>
         <main ref="content" class="content scroll" @wheel.passive="onWheel" @click.stop="clickContent">
             <md :input="content" @ready="makeMenu"/>
@@ -90,19 +90,19 @@ export default {
             this.current = menu[0];
             this.$nextTick(() => {
                 updateLinear(menu);
-                scroller = new IScroll(this.$refs.content);
             });
-        },
-        selectMenu(item) {
-            console.log(item.anchor);
         },
         clickContent(e) {
             const target = e.target;
             if (target.info) {
                 this.current = target.info;
-                location.hash = '#/' + location.hash.split('#/')[1].split('#')[0] +
-                    '#' + target.info.frac; // set fraction
+                this.scrollTo(target.info);
             }
+        },
+        scrollTo(info) {
+            this.$refs.content.scrollTop = info.position;
+            location.hash = '#/' + location.hash.split('#/')[1].split('#')[0] +
+                '#' + info.frac; // set fraction
         },
         onWheel() {
             if (this.ready) {

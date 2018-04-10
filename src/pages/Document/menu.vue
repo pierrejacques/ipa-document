@@ -35,7 +35,8 @@ export default {
         menu: {
             type: Array,
             default: () => [],
-        }
+        },
+        current: {},
     },
     data() {
         return {
@@ -44,6 +45,23 @@ export default {
     },
     created() {
         this.reset();
+    },
+    computed: {
+        // anchors() {
+        //     const result = [];
+        //     if (this.current) {
+        //         const idxs = this.current.anchor.split('-');
+        //         let base = idxs[0];
+        //         idxs.forEach((i, idx) => {
+        //             if (idx > 0) {
+        //                 result.push(base);
+        //                 base += `-${i}`;
+        //             }
+        //         })
+        //     }
+        //     console.log(result);
+        //     return result;
+        // }
     },
     watch: {
         menu(nv) {
