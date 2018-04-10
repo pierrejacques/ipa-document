@@ -14,10 +14,10 @@
                         <li class="li-2"
                             v-for="(sub, j) in item.children" 
                             :key="j" 
-                            @click.stop="toggle(sub);$emit('select', sub)">
+                            @click.stop="toggle(i, j);$emit('select', sub)">
                             {{sub.name}}
                             <ul class="ul-3"
-                                v-if="sub.children && sub.children.length && isOpen[sub.anchor]">
+                                v-if="sub.children && sub.children.length && openIdx[i] === j">
                                 <li class="li-3" 
                                     v-for="(leaf, k) in sub.children" 
                                     :key="k" 
@@ -44,7 +44,7 @@ export default {
     },
     data() {
         return {
-            isOpen: {},
+            openIdx: [],
         }
     },
     created() {
@@ -58,15 +58,16 @@ export default {
     methods: {
         reset() {
             this.menu.forEach(i => {
-                i.children.forEach(j => {
-                    this.isOpen[j.anchor] = false;
-                });
+                this.openIdx.push(null)
             });
         },
-        toggle(item) {
-            const { anchor } = item;
-            this.isOpen[anchor] = !this.isOpen[anchor];
-            this.$forceUpdate();
+        toggle(i, j) {
+            if (this.openIdx[i] === j) {
+                this.openIdx[i] = null;
+            } else {
+                this.openIdx[i] = j;
+            }
+            this.$forceUpdate(); // FIXME: ugly
         },
     }
 }
@@ -80,6 +81,7 @@ export default {
 
 ul {
     padding: 0;
+    padding-bottom: 10px;
     font-size: 14px;
     li {
         list-style: none;
@@ -88,14 +90,24 @@ ul {
         cursor: pointer;
         line-height: @line-h;
         font-weight: 800;
-        color: #aaa;
+        letter-spacing: .1em;
     }
 }
 
 .li-1 {
-    color: #666;
+    color: #777;
+    font-size: 14px;
 }
 
+.li-2 {
+    color: #aaa;
+    font-size: 12px;
+}
+
+.li-3 {
+    color: #aaa;
+    font-size: 12px;
+}
 
 .menu {
     .label {
@@ -112,6 +124,7 @@ ul {
     .menu-list {
         display: inline-block;
         padding-left: 30px;
+        padding-bottom: 100px;
     }
 }
 

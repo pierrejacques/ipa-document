@@ -1,5 +1,5 @@
 <template>
-    <div class="markdown-body markdown-wrapper" v-html="html"></div>
+    <div class="markdown-body markdown-wrapper" v-html="html" ref="markdown"></div>
 </template>
 
 <script>
@@ -16,6 +16,7 @@ export default {
     props: ['input'],
     computed: {
         html() {
+            if (this.input === '') return '';
             return menulize(md.render(this.input), ['h2', 'h3', 'h4'], {
                 attr: 'data-anchor',
                 callback: (menu) => {
@@ -23,7 +24,7 @@ export default {
                 }
             });
         }
-    }
+    },
 }
 </script>
 
