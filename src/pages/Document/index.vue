@@ -70,6 +70,15 @@ class Chain {
         this.scroller = scroller;
     }
 
+    fracJump() {
+        const frac = location.hash.split('#/')[1].split('#')[1];
+        if (frac) {
+            const result = this.chain.filter(i => encodeURI(i.frac) === frac)[0];
+            if (result) this.scrollTo(result.dom);
+        }
+        return this.current;
+    }
+
     getCurrent() {
         const position = this.scroller.scrollTop + CALIB;
         if (this.current.pre && position < this.current.dom.offsetTop) {
@@ -122,7 +131,7 @@ export default {
             this.menu = menu;
             this.$nextTick(() => {
                 chain = new Chain(menu, this.$refs.content);
-                this.current = chain.getCurrent();
+                this.current = chain.fracJump();
             });
         },
         onClickContent(e) {

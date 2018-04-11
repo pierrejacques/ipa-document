@@ -5,7 +5,7 @@ $ npm i ipa.js
 
 ### 基本用法
 
-IPA.js是一个javascript声明式数据结构校验库，可以同时运行于浏览器端和node环境。它通过一种类似`Mongoose.Schema`的语法来声明对数据的校验规则并创建实例：
+IPA.js是一个javascript声明式数据结构校验库，可以同时运行于浏览器端和node环境。它通过一种类似<a href="http://mongoosejs.com/docs/guide.html">Mongoose Schemas</a>的语法来声明对数据的校验规则并创建实例：
 
 ```javascript
 import IPA from 'ipa.js';
@@ -164,5 +164,5 @@ const dataSchema2 = new IPA(Res([{
 
 ### 工程化
 
-由于使用场景多是大型的端对端多模块工程，IPA提供了如**全局注入**和**开发环境设置**等功能来贴合工程化开发场景中的需求，更多IPA的语法细节和工程化用法请见[工程化]()。
+由于使用场景多是大型的端对端多模块工程，IPA提供了如**全局注入**和**开发环境设置**等功能来贴合工程化开发场景中的需求，更多IPA的语法细节和工程化用法请见[工程化](#/doc#工程化)。
 
