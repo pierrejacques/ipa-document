@@ -5,7 +5,7 @@ $ npm i ipa.js
 
 ### 基本用法
 
-IPA.js是一个javascript声明式数据结构校验库，可以同时运行于浏览器端和node环境。它通过一种类似<a href="http://mongoosejs.com/docs/guide.html">Mongoose Schemas</a>的语法来声明对数据的校验规则并创建实例：
+IPA.js是一个javascript声明式数据结构校验库，可以同时运行于浏览器端和node环境。它通过一种类似[Mongoose Schemas](http://mongoosejs.com/docs/guide.html)Mongoose Schemas</a>的语法来声明对数据的校验规则并创建实例：
 
 ```javascript
 import IPA from 'ipa.js';
@@ -17,7 +17,7 @@ const personSchema = new IPA({
 });
 ```
 
-IPA依赖<a target="_blank" href="https://lodash.com">Lodash</a>进行基础类型的校验与转换。它的实例通过**check**，**guarantee**，**mock**三种方法来分别实现对数据的深层**校验**，**保障**和**自动生成**：
+IPA依赖[Lodash](https://lodash.com")进行基础类型的校验与转换。它的实例通过**check**，**guarantee**，**mock**三种方法来分别实现对数据的深层**校验**，**保障**和**自动生成**：
 
 - check方法校验数据结构的合法性：
 
