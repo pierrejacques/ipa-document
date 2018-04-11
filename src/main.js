@@ -4,9 +4,12 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import IPA from 'ipa.js'
+import { Autocomplete } from 'element-ui';
 
 window.IPA = IPA;
 Vue.config.productionTip = false
+
+Vue.component(Autocomplete.name, Autocomplete);
 
 /* eslint-disable no-new */
 new Vue({

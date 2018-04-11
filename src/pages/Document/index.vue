@@ -6,9 +6,17 @@
                     <img src="../../asset/img/logo.svg" class="logo" alt="">
                 </router-link>
             </header>
-            <label class="label" for="">
-                <input type="text">
-            </label>
+            <el-autocomplete
+                class="auto-complete"
+                v-model="keyword"
+                :fetch-suggestions="search"
+                placeholder="搜索文档"
+                @select="selectMenu"
+                >
+                <template slot-scope="props">
+                    <div class="name">{{ props.item.name }}</div>
+                </template>
+            </el-autocomplete>
             <aside-menu 
                 class="menu" 
                 :menu="menu" 
@@ -32,42 +40,61 @@
 
 <script>
 import axios from 'axios';
-import IScroll from 'iscroll';
 import Md from '@/components/markdown';
 import Menu from './menu';
 import { setTimeout } from 'timers';
 
-let scroller = null;
-let lastWidth;
-let posIdx = 0;
-let doms = null;
-let linearMenu = []; // 存放页面锚点位置
+let chain = null;
+const CALIB = 50;
 
-function updateLinear (menu) {
-    const linearize = (arr) => {
-        arr.forEach(item => {
-            linearMenu.push(item);
-            if (item.children) {
-                linearize(item.children);
-            }
+class Chain {
+    constructor(menu, scroller) {
+        this.chain = [];
+        const linearize = (arr) => {
+            arr.forEach(item => {
+                this.chain.push(item);
+                if (item.children) {
+                    linearize(item.children);
+                }
+            });
+        };
+        linearize(menu);
+        [...document.querySelectorAll('[data-anchor]')].forEach((dom, idx) => {
+            this.chain[idx].dom = dom;
+            dom.info = this.chain[idx];
+            dom.info.pre = idx > 0 ? this.chain[idx - 1] : false;
+            dom.info.post = idx < this.chain.length - 1 ? this.chain[idx + 1] : false;
         });
-    };
-    linearMenu = [];
-    linearize(menu);
-    updatePosition();
-};
-
-function updatePosition () {
-    const attr = 'data-anchor';
-    if (doms === null) {
-        doms = [...document.querySelectorAll(`[${attr}]`)];
-        doms.forEach((dom, idx) => {
-            dom.info = linearMenu[idx];
-        })
+        this.current = this.chain[0];
+        this.scroller = scroller;
     }
-    doms.forEach((i, idx) => {
-        linearMenu[idx].position = i.offsetTop;
-    });
+
+    getCurrent() {
+        const position = this.scroller.scrollTop + CALIB;
+        if (this.current.pre && position < this.current.dom.offsetTop) {
+            this.current = this.current.pre;
+            return this.current;
+        }
+        if (this.current.post && position > this.current.post.dom.offsetTop) {
+            this.current = this.current.post;
+            return this.current;
+        }
+        return this.current;
+    }
+
+    scrollTo(dom) {
+        this.current = dom.info;
+        this.scroller.scrollTop = dom.offsetTop;
+        location.hash = '#/' + location.hash.split('#/')[1].split('#')[0] +
+            '#' + dom.info.frac; // set fraction
+        return this.current;
+    }
+
+    search(keyword) {
+        if (!keyword) return [];
+        const regexp = new RegExp(keyword, 'i');
+        return this.chain.filter(item => regexp.test(item.name));
+    }
 }
 
 export default {
@@ -80,65 +107,40 @@ export default {
         return {
             content: '',
             menu: [],
-            ready: false,
             current: null,
+            keyword: '',
         };
     },
     mounted() {
         axios.get('static/document.md').then(res => {
             this.content = res.data;
         });
-        window.addEventListener('resize', () => {
-            const width = document.body.clientWidth;
-            if (width !== lastWidth) {
-                updatePosition();
-                lastWidth = width;
-            }
-        });
     },
     methods: {
-        // initors
         makeMenu(menu) {
             this.menu = menu;
-            this.ready = true;
-            this.current = menu[0];
             this.$nextTick(() => {
-                updateLinear(menu);
+                chain = new Chain(menu, this.$refs.content);
+                this.current = chain.getCurrent();
             });
         },
-        // listeners
         onClickContent(e) {
             const target = e.target;
             if (target.info) {
-                this.current = target.info;
-                this.scrollTo(target.info);
+                chain.scrollTo(target);
             }
         },
         selectMenu(info) {
-            this.current = info;
-            this.scrollTo(info);
-        },
-        scrollTo(info) {
-            this.$refs.content.scrollTop = info.position;
-            location.hash = '#/' + location.hash.split('#/')[1].split('#')[0] +
-                '#' + info.frac; // set fraction
+            this.current = chain.scrollTo(info.dom);
         },
         onWheel() {
-            if (this.ready) {
-                // FIXME: 这个posIdx有三处需要维护，且全是跟content一起维护，不太好
-                const pos = this.$refs.content.scrollTop + 100;
-                if (posIdx < linearMenu.length - 1 && pos > linearMenu[posIdx + 1].position) {
-                    posIdx = posIdx + 1;
-                    this.current = linearMenu[posIdx];
-                    return;
-                }
-                if (pos < this.current.position && posIdx > 0) {
-                    posIdx = posIdx - 1;
-                    this.current = linearMenu[posIdx];
-                    return;
-                }
+            if (chain) {
+                this.current = chain.getCurrent();
             }
         },
+        search(keyword, cb) {
+            cb(chain ? chain.search(this.keyword) : []);
+        }
     }
 }
 </script>
@@ -148,29 +150,32 @@ export default {
 
 .doc-wrapper {
     display: grid;
-    grid-template-columns: 300px auto;
+    grid-template-columns: 290px auto;
     height: 100vh;
     overflow: hidden;
-    @header-h: 150px;
-    .header {
-        height: @header-h;
-        .logo {
-            height: 80%;
-        }
-    }
-
-    .menu {
-        height: calc(100% - @header-h);
-    }
+    @header-h: 100px;
 
     .aside {
         max-height: 100%;
         z-index: 1;
         overflow: hidden;
+        padding: 20px 30px;
+        .header {
+            height: @header-h;
+        }
+        .logo {
+        width: 80px;
+        }
+        .auto-complete {
+            width: 100%;
+        }
+        .menu {
+            height: calc(100% - @header-h);
+        }
     }
 
     .content {
-        padding: 50px 0 0;
+        padding: 100px 0 30vh;
     }    
 }
 </style>
