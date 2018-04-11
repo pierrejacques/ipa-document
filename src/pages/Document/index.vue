@@ -171,11 +171,6 @@ export default {
         .logo {
             width: 60%;
             margin: auto;
-            opacity: 0.8;
-            transition: 0.3s;
-            &:hover {
-                opacity: 1;
-            }
         }
         .title {
             font-size: 22px;

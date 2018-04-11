@@ -107,7 +107,7 @@ ul {
         line-height: @line-h;
         font-weight: 500;
         font-size: 13px;
-        letter-spacing: .1em;
+        letter-spacing: .06em;
         color: #aaa;
         &.active {
             color: #6b392d;
