@@ -119,7 +119,6 @@ ul {
 }
 
 .menu-wrapper {
-    margin-top: 20px;
     .menu-list {
         display: inline-block;
         padding-bottom: 100px;

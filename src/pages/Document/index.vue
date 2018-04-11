@@ -3,8 +3,9 @@
         <aside class="aside box scroll">
             <header class="header">
                 <router-link to="/">
-                    <img src="../../asset/img/logo.svg" class="logo" alt="">
+                    <img src="../../asset/img/logo.svg" class="logo" alt=""> 
                 </router-link>
+                <!-- <h1 class="title">IPA.js文档</h1> -->
             </header>
             <el-autocomplete
                 class="auto-complete"
@@ -153,7 +154,7 @@ export default {
     grid-template-columns: 290px auto;
     height: 100vh;
     overflow: hidden;
-    @header-h: 100px;
+    @header-h: 140px;
 
     .aside {
         max-height: 100%;
@@ -161,13 +162,28 @@ export default {
         overflow: hidden;
         padding: 20px 30px;
         .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
             height: @header-h;
+            text-align: center;
         }
         .logo {
-        width: 80px;
+            width: 60%;
+            margin: auto;
+            opacity: 0.8;
+            transition: 0.3s;
+            &:hover {
+                opacity: 1;
+            }
+        }
+        .title {
+            font-size: 22px;
+            color: #b9a7a7;
         }
         .auto-complete {
             width: 100%;
+            margin: 15px 0 20px;
         }
         .menu {
             height: calc(100% - @header-h);
@@ -175,7 +191,7 @@ export default {
     }
 
     .content {
-        padding: 100px 0 30vh;
+        padding: 50px 0 30vh;
     }    
 }
 </style>
