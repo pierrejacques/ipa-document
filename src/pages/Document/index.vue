@@ -9,10 +9,23 @@
             <label class="label" for="">
                 <input type="text">
             </label>
-            <aside-menu class="menu" :menu="menu" :current="current" @select="scrollTo"/>
+            <aside-menu 
+                class="menu" 
+                :menu="menu" 
+                :current="current" 
+                @select="selectMenu"
+            />
         </aside>
-        <main ref="content" class="content scroll" @wheel.passive="onWheel" @click.stop="clickContent">
-            <md :input="content" @ready="makeMenu"/>
+        <main 
+            ref="content" 
+            class="content scroll" 
+            @wheel.passive="onWheel"
+            @click.stop="onClickContent">
+            <md 
+                :input="content" 
+                @ready="makeMenu"
+                
+            />
         </main>
     </div>
 </template>
@@ -84,6 +97,7 @@ export default {
         });
     },
     methods: {
+        // initors
         makeMenu(menu) {
             this.menu = menu;
             this.ready = true;
@@ -92,12 +106,17 @@ export default {
                 updateLinear(menu);
             });
         },
-        clickContent(e) {
+        // listeners
+        onClickContent(e) {
             const target = e.target;
             if (target.info) {
                 this.current = target.info;
                 this.scrollTo(target.info);
             }
+        },
+        selectMenu(info) {
+            this.current = info;
+            this.scrollTo(info);
         },
         scrollTo(info) {
             this.$refs.content.scrollTop = info.position;
@@ -106,6 +125,7 @@ export default {
         },
         onWheel() {
             if (this.ready) {
+                // FIXME: 这个posIdx有三处需要维护，且全是跟content一起维护，不太好
                 const pos = this.$refs.content.scrollTop + 100;
                 if (posIdx < linearMenu.length - 1 && pos > linearMenu[posIdx + 1].position) {
                     posIdx = posIdx + 1;

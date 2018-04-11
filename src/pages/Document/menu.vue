@@ -66,6 +66,9 @@ export default {
     watch: {
         menu(nv) {
             this.reset()
+        },
+        current(nv) {
+            console.log(nv && nv.name);
         }
     },
     methods: {
