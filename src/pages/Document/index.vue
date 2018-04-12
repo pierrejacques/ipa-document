@@ -72,16 +72,24 @@ export default {
             this.menu = article.menu;
             this.$nextTick(() => {
                 this.current = article.updateCurrent();
+                article.scrollToFrac(article.fraction);
             })
         },
         onClickContent(e) {
             const target = e.target;
             if (target.info) {
                 this.current = article.scrollToDom(target);
+                article.fraction = this.current.frac;
+            }
+            if (target.href) {
+                this.$nextTick(() => {
+                    article.scrollToFrac(article.fraction);
+                });
             }
         },
         selectMenu(info) {
             this.current = article.scrollToDom(info.dom);
+            article.fraction = this.current.frac;
         },
         onWheel() {
             if (article) {

@@ -117,10 +117,21 @@ export default class Article {
         this.wrapper = dom;
     }
 
+    set fraction(val) {
+        const a = location.hash.split('#/')[0];
+        const [b, c] = location.hash.split('#')[1].split('#');
+        location.hash = `${a}#${b}#${val}`;
+    }
+
+    get fraction() {
+        return location.hash.split('#/')[1].split('#')[1];
+    }
+
     scrollToFrac(frac) {
+        if (!frac) return null;
         let pointer = first;
         while (pointer) {
-            if (encodeURI(pointer.frac) === encodeURI(frac)) {
+            if (encodeURI(pointer.frac) === frac) {
                 return this.scrollToDom(pointer.dom);
             }
             pointer = pointer.post;
