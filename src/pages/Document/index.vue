@@ -5,7 +5,6 @@
                 <router-link to="/">
                     <img src="../../asset/img/logo.svg" class="logo" alt=""> 
                 </router-link>
-                <!-- <h1 class="title">IPA.js文档</h1> -->
             </header>
             <el-autocomplete
                 class="auto-complete"
@@ -13,7 +12,7 @@
                 :fetch-suggestions="search"
                 placeholder="搜索文档"
                 @select="selectMenu"
-                >
+            >
                 <template slot-scope="props">
                     <div class="name">{{ props.item.name }}</div>
                 </template>
@@ -33,7 +32,6 @@
             <md 
                 :input="content" 
                 @ready="makeMenu"
-                
             />
         </main>
     </div>
@@ -45,67 +43,7 @@ import Md from '@/components/markdown';
 import Menu from './menu';
 import { setTimeout } from 'timers';
 
-let chain = null;
-const CALIB = 50;
-
-class Chain {
-    constructor(menu, scroller) {
-        this.chain = [];
-        const linearize = (arr) => {
-            arr.forEach(item => {
-                this.chain.push(item);
-                if (item.children) {
-                    linearize(item.children);
-                }
-            });
-        };
-        linearize(menu);
-        [...document.querySelectorAll('[data-anchor]')].forEach((dom, idx) => {
-            this.chain[idx].dom = dom;
-            dom.info = this.chain[idx];
-            dom.info.pre = idx > 0 ? this.chain[idx - 1] : false;
-            dom.info.post = idx < this.chain.length - 1 ? this.chain[idx + 1] : false;
-        });
-        this.current = this.chain[0];
-        this.scroller = scroller;
-    }
-
-    fracJump() {
-        const frac = location.hash.split('#/')[1].split('#')[1];
-        if (frac) {
-            const result = this.chain.filter(i => encodeURI(i.frac) === frac)[0];
-            if (result) this.scrollTo(result.dom);
-        }
-        return this.current;
-    }
-
-    getCurrent() {
-        const position = this.scroller.scrollTop + CALIB;
-        if (this.current.pre && position < this.current.dom.offsetTop) {
-            this.current = this.current.pre;
-            return this.current;
-        }
-        if (this.current.post && position > this.current.post.dom.offsetTop) {
-            this.current = this.current.post;
-            return this.current;
-        }
-        return this.current;
-    }
-
-    scrollTo(dom) {
-        this.current = dom.info;
-        this.scroller.scrollTop = dom.offsetTop;
-        location.hash = '#/' + location.hash.split('#/')[1].split('#')[0] +
-            '#' + dom.info.frac; // set fraction
-        return this.current;
-    }
-
-    search(keyword) {
-        if (!keyword) return [];
-        const regexp = new RegExp(keyword, 'i');
-        return this.chain.filter(item => regexp.test(item.name));
-    }
-}
+let article = null;
 
 export default {
     name: 'document',
@@ -119,6 +57,7 @@ export default {
             menu: [],
             current: null,
             keyword: '',
+            article: null,
         };
     },
     mounted() {
@@ -127,29 +66,32 @@ export default {
         });
     },
     methods: {
-        makeMenu(menu) {
-            this.menu = menu;
+        makeMenu(art) {
+            article = art;
+            this.menu = article.menu;
+            this.current = this.first;
+            article.setWrapper(this.$refs.content);
             this.$nextTick(() => {
-                chain = new Chain(menu, this.$refs.content);
-                this.current = chain.fracJump();
+                this.current = article.current;
+                //frac
             });
         },
         onClickContent(e) {
             const target = e.target;
             if (target.info) {
-                chain.scrollTo(target);
+                article.scrollToDom(target);
             }
         },
         selectMenu(info) {
-            this.current = chain.scrollTo(info.dom);
+            this.current = article.scrollToDom(info.dom);
         },
         onWheel() {
-            if (chain) {
-                this.current = chain.getCurrent();
+            if (article) {
+                this.current = article.current;
             }
         },
         search(keyword, cb) {
-            cb(chain ? chain.search(this.keyword) : []);
+            cb(article ? article.search(this.keyword) : []);
         }
     }
 }

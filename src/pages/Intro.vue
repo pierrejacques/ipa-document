@@ -13,7 +13,7 @@
 
         </header>
         <main class="content box">
-            <md :input="content"/>
+            <md :input="content" :interactive="false"/>
         </main>
     </div>
 </template>

@@ -3,26 +3,31 @@
 </template>
 
 <script>
-import MarkdownIt from 'markdown-it';
-import hljs from 'highlight.js';
-import menulize from '@/utils/html-menulize';
-
-const md = new MarkdownIt({
-    highlight: (str, lang) => lang ? hljs.highlight(lang, str).value : '',
-});
+import Article from '@/utils/Article';
 
 export default {
     name: 'markdown',
-    props: ['input'],
+    props: {
+        input: {
+            type: String,
+            default: '',
+        },
+        interactive: {
+            type: Boolean,
+            default: true,
+        },
+    },
     computed: {
         html() {
-            if (this.input === '') return '';
-            return menulize(md.render(this.input), ['h2', 'h3', 'h4'], {
-                attr: 'data-anchor',
-                callback: (menu) => {
-                    this.$emit('ready', menu);
-                }
-            });
+            if (!this.input) return '';
+            const article = new Article(
+                this.input,
+                this.interactive,
+                ['h2', 'h3', 'h4'],
+            );
+            console.log(article);
+            this.$emit('ready', article);
+            return article.html;
         }
     },
 }
