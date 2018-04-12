@@ -5,8 +5,7 @@ import { encode } from 'punycode';
 
 const CALIB = 100;
 
-let last = null;
-let first;
+let last, first;
 
 const getName = (str, tag) => {
     const last = arr => arr[arr.length - 1];
@@ -15,29 +14,6 @@ const getName = (str, tag) => {
         temp = last(temp.split(ch));
     });
     return temp;
-}
-
-class InfoItem {
-    constructor({ name, anchor, frac, pre, attr }) {
-        this.name = name;
-        this.anchor = anchor;
-        this.frac = frac;
-        this.pre = pre;
-        this.post = null;
-        this.$dom = null;
-        this.attr = attr;
-    }
-
-    get dom() {
-        if (this.$dom) return this.$dom;
-        let pointer = first;
-        [...document.querySelectorAll(`[${this.attr}]`)].forEach((dom) => {
-            pointer.$dom = dom;
-            dom.info = pointer;
-            pointer = pointer.post;
-        });
-        return this.$dom;
-    }
 }
 
 function mark (
@@ -55,13 +31,12 @@ function mark (
             const frac = fracPre === null ? name : `${fracPre}-${name}`;
             const anchor = anchorPre === null ? `${i}` : `${anchorPre}-${i}`;
             const insert = `<${tag} ${attr}="${anchor}"`;
-            const item = new InfoItem({
+            const item = {
                 name,
                 anchor,
                 frac,
-                attr,
                 pre: last,
-            });
+            };
             if (last) {
                 last.post = item;
             }
@@ -98,6 +73,8 @@ export default class Article {
         tags = ['h1', 'h2', 'h3'],
         attr = 'data-anchor',
     ) {
+        first = null;
+        last = null;
         const markdownit = new MarkdownIt({
             highlight: (str, lang) => lang ? hljs.highlight(lang, str).value : '',
         });
@@ -106,6 +83,8 @@ export default class Article {
         this.current = null;
         this.first = null;
         this.wrapper = null;
+        this.attr = attr;
+        this.ready = !interactive;
         if (interactive) {
             this.html = mark(this.html, tags, attr, this.menu);
             this.first = first;
@@ -113,8 +92,15 @@ export default class Article {
         }
     }
 
-    setWrapper(dom) {
+    initDom(dom) {
         this.wrapper = dom;
+        let pointer = first;
+        [...document.querySelectorAll(`[${this.attr}]`)].forEach((dom) => {
+            pointer.dom = dom;
+            dom.info = pointer;
+            pointer = pointer.post;
+        });
+        this.ready = true;
     }
 
     set fraction(val) {

@@ -53,7 +53,7 @@
 import axios from 'axios';
 import Md from '@/components/markdown';
 import Menu from './menu';
-import { setTimeout } from 'timers';
+import linkto from '@/utils/linkto';
 
 let article = null;
 
@@ -71,6 +71,7 @@ export default {
             keyword: '',
             article: null,
             showToTop: false,
+            location: null,
         };
     },
     mounted() {
@@ -80,21 +81,18 @@ export default {
     },
     watch: {
         current(v) {
-            if (article) {
+            if (article.ready) {
                 this.showToTop = document.body.clientHeight < article.wrapper.scrollTop;
             }
-        }
+        },
     },
     methods: {
         makeMenu(art) {
             article = art;
-            article.setWrapper(this.$refs.content);
+            article.initDom(this.$refs.content);
             this.menu = article.menu;
-            this.$nextTick(() => {
-                // FIXME: 初始化存在问题
-                this.current = article.updateCurrent();
-                article.scrollToFrac(article.fraction);
-            })
+            this.current = article.scrollToFrac(article.fraction);
+            this.location = window.location;
         },
         onClickContent(e) {
             const target = e.target;
@@ -103,9 +101,10 @@ export default {
                 article.fraction = this.current.frac;
             }
             if (target.href) {
-                this.$nextTick(() => {
+                linkto(target.href, () => {
                     article.scrollToFrac(article.fraction);
                 });
+                e.preventDefault();
             }
         },
         selectMenu(info) {

@@ -12,7 +12,7 @@
             </div>
 
         </header>
-        <main class="content box">
+        <main class="content box" @click="onClickContent">
             <md :input="content" :interactive="false"/>
         </main>
     </div>
@@ -21,6 +21,7 @@
 <script>
 import axios from 'axios';
 import md from '@/components/markdown';
+import linkto from '@/utils/linkto';
 
 export default {
     name: 'intro',
@@ -37,6 +38,14 @@ export default {
             this.content = res.data;
         });
     },
+    methods: {
+        onClickContent(e) {
+            if (e.target.href) {
+                linkto(e.target.href);
+                e.preventDefault();
+            }
+        }
+    }
 }
 </script>
 

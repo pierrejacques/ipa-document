@@ -25,7 +25,9 @@ export default {
                 this.interactive,
                 ['h2', 'h3', 'h4'],
             );
-            this.$emit('ready', article);
+            this.$nextTick(() => {
+                this.$emit('ready', article);
+            });
             return article.html;
         }
     },

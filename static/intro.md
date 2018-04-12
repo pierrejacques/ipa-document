@@ -17,7 +17,7 @@ const personSchema = new IPA({
 });
 ```
 
-IPA依赖[Lodash](https://lodash.com")进行基础类型的校验与转换。它的实例通过**check**，**guarantee**，**mock**三种方法来分别实现对数据的深层**校验**，**保障**和**自动生成**：
+IPA依赖[Lodash](https://lodash.com)进行基础类型的校验与转换。它的实例通过**check**，**guarantee**，**mock**三种方法来分别实现对数据的深层**校验**，**保障**和**自动生成**：
 
 - [check方法](#/doc#校验方法-check方法)校验数据结构的合法性：
 
