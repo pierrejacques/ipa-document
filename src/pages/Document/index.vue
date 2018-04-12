@@ -34,6 +34,7 @@
                 @ready="makeMenu"
             />
         </main>
+        <!-- <a @click="toTop" class="to-top"></a> -->
     </div>
 </template>
 
@@ -98,7 +99,10 @@ export default {
         },
         search(keyword, cb) {
             cb(article ? article.search(this.keyword) : []);
-        }
+        },
+        toTop() {
+            this.current = article.scrollToDom(article.first.dom);
+        },
     }
 }
 </script>
@@ -144,6 +148,42 @@ export default {
 
     .content {
         padding: 50px 0 30vh;
-    }    
+    } 
+
+    .to-top {
+        @size: 50px;
+        display: block;
+        position: fixed;
+        z-index: 1;
+        bottom: 70px;
+        right: 50px;
+        width: @size;
+        height: @size;
+        line-height: @size;
+        background: #fff7;
+        border: 2px solid #888a;
+        border-radius: 4px;
+        cursor: pointer;
+        opacity: 0.5;
+        transition: 0.3s;
+        &:hover {
+            opacity: 1;
+        }
+        &::before {
+            @arrow: 17px;
+            content: '';
+            display: inline-block;
+            position: absolute;
+            height: @arrow;
+            width: @arrow;
+            line-height: @size;
+            border: 2px solid #666a;
+            border-left: none;
+            border-bottom: none;
+            transform: rotate(-45deg);
+            margin-top: (@size - @arrow) / 2 + 5px;
+            margin-left: (@size - @arrow) / 2;
+        }
+    }
 }
 </style>
