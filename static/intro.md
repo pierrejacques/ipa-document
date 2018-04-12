@@ -19,7 +19,7 @@ const personSchema = new IPA({
 
 IPA依赖[Lodash](https://lodash.com")进行基础类型的校验与转换。它的实例通过**check**，**guarantee**，**mock**三种方法来分别实现对数据的深层**校验**，**保障**和**自动生成**：
 
-- check方法校验数据结构的合法性：
+- [check方法](#/doc#校验方法-check方法)校验数据结构的合法性：
 
 ```javascript
 personSchema.check({
@@ -30,7 +30,7 @@ personSchema.check({
 }); // true
 ```
 
-- guarantee方法保障数据的合法性，给予系统一定的容错能力：
+- [guarantee方法](#/doc#校验方法-guarantee方法)保障数据的合法性，给予系统一定的容错能力：
 
 ```javascript
 personSchema.guarantee({
@@ -48,7 +48,7 @@ personSchema.guarantee({
 // }
 ```
 
-- mock方法生成随机的合法数据，方便开发：
+- [mock方法](#/doc#校验方法-mock方法)生成随机的合法数据，方便开发：
 
 ```javascript
 personSchema.mock();
@@ -60,7 +60,7 @@ personSchema.mock();
 // }
 ```
 
-IPA还针对**数组长度**提供了强大的校验、保障和生成机制。
+IPA还针对[数组长度](#/doc#校验规则声明语法-数组-长度校验)提供了强大的校验、保障和生成机制。
 如下声明的表格数据格式，要求其表头的列数和每一行的列数一致：
 
 ```javascript
@@ -119,7 +119,7 @@ const listSchema = new IPA([
 
 ### 自定义规则
 
-IPA还支持具有高扩展性的规则自定义，并支持构造自定义的嵌套规则。
+IPA还支持具有高扩展性的[规则自定义](#/doc#校验规则声明语法-自定义校验)，并支持构造自定义的嵌套规则。
 
 如下示例了一个可以对校验规则进行 _**与操作**_ 的函数，并基于此生成了一个可以用来校验是否是合法的ASCII码值的校验器：
 
@@ -162,5 +162,5 @@ const dataSchema2 = new IPA(Res([{
 
 ### 工程化
 
-由于使用场景多是大型的端对端多模块工程，IPA提供了如**全局注入**和**开发环境设置**等功能来贴合工程化开发场景中的需求，更多IPA的语法细节和工程化用法请见[工程化](#/doc#工程化)。
+由于使用场景多是大型的 **端对端/多模块** 工程，IPA提供了如[全局注入](#/doc#工程化-实例的全局注入与调用)和[开发环境设置](#/doc#工程化-mock与生产环境)等功能来贴合工程化开发场景中的需求，更多IPA的语法细节和工程化用法请见[工程化](#/doc#工程化)。
 

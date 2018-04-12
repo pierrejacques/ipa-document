@@ -91,6 +91,7 @@ export default {
             article.setWrapper(this.$refs.content);
             this.menu = article.menu;
             this.$nextTick(() => {
+                // FIXME: 初始化存在问题
                 this.current = article.updateCurrent();
                 article.scrollToFrac(article.fraction);
             })

@@ -150,11 +150,11 @@ export default class Article {
 
     updateCurrent() {
         const position = this.wrapper.scrollTop + CALIB;
-        if (this.current.pre && position < this.current.dom.offsetTop) {
+        if (this.current.pre && this.current.dom && position < this.current.dom.offsetTop) {
             this.current = this.current.pre;
             return this.current;
         }
-        if (this.current.post && position > this.current.post.dom.offsetTop) {
+        if (this.current.post && this.current.post.dom && position > this.current.post.dom.offsetTop) {
             this.current = this.current.post;
             return this.current;
         }
