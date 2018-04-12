@@ -435,7 +435,7 @@ function arraySimple (compile) { // 传入编译函数
     return {
         check(data) { // 参数：输入数据
             // check的实现
-            return isArray(data) && !data.filter(i => !subRule.check(i)).length;
+            return isArray(data) && data.every(i => subRule.check(i));
         },
         guarantee(data, strict) { // 参数一：输入数据；参数二：是否严格模式
             // guarantee的实现
@@ -483,7 +483,7 @@ function and (...templates) {
         const rules = templates.map(template => compile(template));
         return {
             check(val) {
-                return !rules.filter(rule => rule.check(val) === false).length;
+                return rules.every(rule => rule.check(val) === false);
             } 
         }
     }
