@@ -1,7 +1,7 @@
 ## 一、校验方法
 
 ### check方法
-check方法用于对数据结构的瑕疵零容忍的场景。它接受一个待检验的数据作为参数，并返回一个布尔值作为校验结果：
+用于对数据结构的瑕疵零容忍的场景。它接受一个待检验的数据作为参数，并返回一个布尔值作为校验结果：
 
 ```javascript
 const arrSchema = new IPA([String]);
@@ -11,9 +11,9 @@ arrSchema.check({ 0: 'a', 1: 'b', 3: 'c', length: 3 }); // false
 ```
 
 ### guarantee方法
-guarantee方法顾名思义，用来合法化一个合法性未知的数据。鉴于此，它不仅可以用于提高系统的容错率，也可以用来生成一个空的合法结构：
+用来处理一个合法性未知的数据，并承诺返回一个合法的数据。它不仅可以用于提高系统的容错率，也可以用来生成一个空的合法结构：
 
-它接受3个输入参数，其中首个必填：`guarantee(data:any [,deepCopy:boolean = true [,strictMode:boolean = false]])`
+guarantee方法接受3个输入参数，其中首个必填：`guarantee(data:any [,deepCopy:boolean = true [,strictMode:boolean = false]])`
 
 - 第一个参数接受需要被保障的数据：
 
@@ -68,7 +68,7 @@ schema.guarantee('123', true, true); // 0
 
 ### mock方法
 
-mock方法能随机生成需要的数据，方便开发。它接受两个参数，都为非必填：`mock([setting:object = {} [, prod:boolean = false]])`
+随机生成合法的数据，方便开发。它接受两个参数，都为非必填：`mock([setting:object = {} [, prod:boolean = false]])`
 
 - 第一个参数为一个对象，用于在mock含数组长度要求的内容时指定长度：
 
@@ -81,7 +81,6 @@ schema.mock(); //  [4, 2, 7, 10, 5, 2]
 // 指定len的值为3
 schema.mock({ len: 3 }); // [6, 8, 1]
 ```
-你甚至可以利用这项功能生成特定边长的数据立方、超立方等。
 
 - 第二个参数为布尔型，表示当前的mock的行为是否为**生产环境行为**，默认值为`false`。在生产环境行为下，mock方法不再随机地生成数据，而是给出尽可能基本的具有合法结构的数据，其结果类似`guarantee(undefined)`的结果。这样做是为了避免开发时的mock影响到线上的真实数据，并减少上线前的代码改动量。可以通过配置`IPA.isProductionEnv`来全局地改变mock的行为，不过对于具有第二个参数输入的mock方法，还是以输入的参数为准。关于全局环境的配置以及如何在MV*工程中更合理地使用mock，详见[工程化](#/doc#工程化)
 
