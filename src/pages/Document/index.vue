@@ -15,6 +15,13 @@
             >
                 <template slot-scope="props">
                     <div class="name">{{ props.item.name }}</div>
+                    <span 
+                        :style="{ 
+                            color: '#ccc',
+                            fontSize: '12px',
+                            lineHeight: '12px',
+                        }"
+                    >{{ props.item.frac.replace('-', ' > ') }}</span>
                 </template>
             </el-autocomplete>
             <aside-menu 
@@ -34,7 +41,11 @@
                 @ready="makeMenu"
             />
         </main>
-        <!-- <a @click="toTop" class="to-top"></a> -->
+        <a 
+            @click="toTop" 
+            class="to-top"
+            :class="{ active: showToTop }"
+        />
     </div>
 </template>
 
@@ -59,12 +70,20 @@ export default {
             current: null,
             keyword: '',
             article: null,
+            showToTop: false,
         };
     },
     mounted() {
         axios.get('/static/document.md').then(res => {
             this.content = res.data;
         });
+    },
+    watch: {
+        current(v) {
+            if (article) {
+                this.showToTop = document.body.clientHeight < article.wrapper.scrollTop;
+            }
+        }
     },
     methods: {
         makeMenu(art) {
@@ -155,33 +174,36 @@ export default {
         display: block;
         position: fixed;
         z-index: 1;
-        bottom: 70px;
+        bottom: -@size;
         right: 50px;
         width: @size;
         height: @size;
         line-height: @size;
-        background: #fff7;
-        border: 2px solid #888a;
-        border-radius: 4px;
+        background: white;
+        border-radius: 50%;
         cursor: pointer;
-        opacity: 0.5;
+        opacity: 0.7;
         transition: 0.3s;
+        box-shadow: 0 1px 5px #0005;
+        &.active {
+            bottom: 70px;
+        }
         &:hover {
             opacity: 1;
         }
         &::before {
-            @arrow: 17px;
+            @arrow: 15px;
             content: '';
             display: inline-block;
             position: absolute;
             height: @arrow;
             width: @arrow;
             line-height: @size;
-            border: 2px solid #666a;
+            border: 2px solid silver;
             border-left: none;
             border-bottom: none;
             transform: rotate(-45deg);
-            margin-top: (@size - @arrow) / 2 + 5px;
+            margin-top: (@size - @arrow) / 2 + 3px;
             margin-left: (@size - @arrow) / 2;
         }
     }
