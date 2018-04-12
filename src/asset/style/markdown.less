@@ -10,6 +10,14 @@
 .markdown-pointer {
     h2, h3, h4 {
         cursor: pointer;
+        position: relative;
+        &:hover::before {
+            position: absolute;
+            content: url(../img/link.png);
+            transform: scale(0.35);
+            left: @pad - 64px;
+            top: -20px;
+        }
     }
 }
 
