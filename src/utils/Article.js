@@ -103,13 +103,13 @@ export default class Article {
         });
         this.html = markdownit.render(md);
         this.menu = [];
-        this.$current = null;
+        this.current = null;
         this.first = null;
         this.wrapper = null;
         if (interactive) {
             this.html = mark(this.html, tags, attr, this.menu);
             this.first = first;
-            this.$current = first;
+            this.current = first;
         }
     }
 
@@ -128,26 +128,26 @@ export default class Article {
     }
 
     scrollToDom(dom) {
-        this.$current = dom.info;
+        this.current = dom.info;
         this.scrollTo(dom.offsetTop);
-        return this.$current;
+        return this.current;
     }
 
     scrollTo(position) {
         this.wrapper.scrollTop = position;
     }
 
-    get current() {
+    updateCurrent() {
         const position = this.wrapper.scrollTop + CALIB;
-        if (this.$current.pre && position < this.$current.dom.offsetTop) {
-            this.$current = this.$current.pre;
-            return this.$current;
+        if (this.current.pre && position < this.current.dom.offsetTop) {
+            this.current = this.current.pre;
+            return this.current;
         }
-        if (this.$current.post && position > this.$current.post.dom.offsetTop) {
-            this.$current = this.$current.post;
-            return this.$current;
+        if (this.current.post && position > this.current.post.dom.offsetTop) {
+            this.current = this.current.post;
+            return this.current;
         }
-        return this.$current;
+        return this.current;
     }
 
     search(keyword) {

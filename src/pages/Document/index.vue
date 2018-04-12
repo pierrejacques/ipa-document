@@ -68,18 +68,16 @@ export default {
     methods: {
         makeMenu(art) {
             article = art;
-            this.menu = article.menu;
-            this.current = this.first;
             article.setWrapper(this.$refs.content);
+            this.menu = article.menu;
             this.$nextTick(() => {
-                this.current = article.current;
-                //frac
-            });
+                this.current = article.updateCurrent();
+            })
         },
         onClickContent(e) {
             const target = e.target;
             if (target.info) {
-                article.scrollToDom(target);
+                this.current = article.scrollToDom(target);
             }
         },
         selectMenu(info) {
@@ -87,7 +85,7 @@ export default {
         },
         onWheel() {
             if (article) {
-                this.current = article.current;
+                this.current = article.updateCurrent();
             }
         },
         search(keyword, cb) {
