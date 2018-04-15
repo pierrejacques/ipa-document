@@ -1,9 +1,19 @@
 <template>
-    <div class="markdown-body markdown-wrapper markdown-pointer" v-html="html"></div>
+    <main 
+        ref="content" 
+        class="content scroll" 
+        @wheel.passive="onWheel"
+        @click.stop="onClickContent">
+        <md 
+            :input="content" 
+            @ready="makeMenu"
+        />
+        <div class="markdown-body markdown-wrapper markdown-pointer" v-html="html"></div>
+    </main>
 </template>
 
 <script>
-import Article from '@/utils/Article';
+import Article from './Article.class';
 
 export default {
     name: 'markdown',
@@ -26,6 +36,7 @@ export default {
                 ['h2', 'h3', 'h4'],
             );
             this.$nextTick(() => {
+                onC
                 this.$emit('ready', article);
             });
             return article.html;

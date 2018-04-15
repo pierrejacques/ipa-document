@@ -20,7 +20,7 @@
 
 <script>
 import axios from 'axios';
-import md from '@/components/markdown';
+import article from '@/components/Article';
 import linkto from '@/utils/linkto';
 
 export default {
