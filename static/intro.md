@@ -131,7 +131,7 @@ function and (...templates) {
             check: val => rules.every(rule => rule.check(val)),
         };
     }
-}；
+}
 
 function RangeInt (min, max) {
     return and(IPA.Range(min, max), IPA.Integer);
