@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import IPA from 'ipa.js'
 import { Autocomplete } from 'element-ui';
+import logo from '@/utils/texlogo';
 
 window.IPA = IPA;
 Vue.config.productionTip = false
@@ -17,4 +18,6 @@ new Vue({
   router,
   components: { App },
   template: '<App/>'
-})
+});
+
+console.log(logo);
