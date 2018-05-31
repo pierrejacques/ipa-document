@@ -353,6 +353,18 @@ table.mock({ cols: 2, rows: 3 });
 table.mock({}, true);  //  { thead: [], body: [] }
 ```
 
+### *函数 (v3.2.0+)
+
+通过声明`Function`来要求指定字段必须是函数（方法）。
+
+``` javascript
+const func = new IPA(Function);
+
+func.check(() => console.log('test')); // true
+func.guarantee(undefined); // () => {}
+func.mock(); // () => {}
+```
+
 ### 旁通规则
 
 #### null
@@ -652,6 +664,32 @@ personSchema.check(p1); // true
 personSchema.check(p2); // false
 personSchema.guarantee(p2); // Person{fn:'John',ln:'Doe'}
 personSchema.mock(); // Person{fn:'John',ln:'Doe'}
+```
+
+### *组合校验器：assemble (v3.2.0+)
+
+assemble用于组合几个校验模板的方法，生成新的模版：
+
+``` typescript
+assemble(checkProvider : IPATemplate, guaranteeProvider : IPATemplate, mockProvider : IPATemplate) : IPATemplate`
+```
+
+在一些场景中，我们希望快速组合几不同的IPA校验器的check，guarantee和mock方法，比如我们希望一个校验器具有String和Number的check方法，但是使用Integer的guarantee和mock方法（即赋予它一定的数据转换能力），那么可以如下创建校验器：
+
+``` javascript
+const { Integer, or, assemble } = IPA;
+
+const intTransfer = new IPA(assemble(
+    or(String, Integer),
+    Integer,
+    Integer,
+));
+
+intTransfer.check('1'); // true
+intTransfer.check(1.2); // true
+intTransfer.guarantee('1'); // 1
+intTransfer.guarantee(1.2); // 1
+intTransfer.mock(); // 5 (随机整数)
 ```
 
 
