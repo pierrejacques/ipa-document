@@ -53,7 +53,7 @@ schema.guarantee(obj) === obj; // false
 schema.guarantee(obj, false) === obj; // true
 ```
 
-- 第三个参数为布尔型，表示是否需要启用**严格模式**进行数据保障，默认值为`false`。在一般模式下，guarantee倾向于对类型错误的数据进行类型转化，在严格模式下则会一律使用一个合法的默认值来替换。转换规则和默认值的取值详见[校验语法](#/doc#校验规则声明语法)
+- 第三个参数为布尔型，表示是否需要启用**严格模式**进行数据保障，默认值为`false`。在一般模式下，guarantee倾向于对类型错误的数据进行类型转化，在严格模式下则会一律使用一个合法的默认值来替换。转换规则和默认值的取值详见[校验语法](#/doc#校验规则声明)
 
 ```javascript
 const schema = new IPA(Number);
@@ -353,6 +353,18 @@ table.mock({ cols: 2, rows: 3 });
 table.mock({}, true);  //  { thead: [], body: [] }
 ```
 
+### *函数 (v3.2.0+)
+
+通过声明`Function`来要求指定字段必须是函数（方法）。
+
+``` javascript
+const func = new IPA(Function);
+
+func.check(() => console.log('test')); // true
+func.guarantee(undefined); // () => {}
+func.mock(); // () => {}
+```
+
 ### 旁通规则
 
 #### null
@@ -472,7 +484,7 @@ const dataSchema2 = new IPA(Res({
 }));
 ```
 
-不过自定义规则允许更为宽松的语法，不强制要求**规则函数**返回所有的三种方法，对没有返回的方法，IPA会自动为它增添`undefined`声明下的[旁通规则](#/doc#校验规则声明语法-旁通规则)：
+不过自定义规则允许更为宽松的语法，不强制要求**规则函数**返回所有的三种方法，对没有返回的方法，IPA会自动为它增添`undefined`声明下的[旁通规则](#/doc#校验规则声明-旁通规则)：
 
 比如下面自定义的**与规则**，只定义了`check`方法的执行规则：
 
@@ -652,6 +664,32 @@ personSchema.check(p1); // true
 personSchema.check(p2); // false
 personSchema.guarantee(p2); // Person{fn:'John',ln:'Doe'}
 personSchema.mock(); // Person{fn:'John',ln:'Doe'}
+```
+
+### *组合校验器：assemble (v3.2.0+)
+
+assemble用于组合几个校验模板的方法，生成新的模版：
+
+``` typescript
+assemble(checkProvider : IPATemplate, guaranteeProvider : IPATemplate, mockProvider : IPATemplate) : IPATemplate`
+```
+
+在一些场景中，我们希望快速组合几不同的IPA校验器的check，guarantee和mock方法，比如我们希望一个校验器具有String和Number的check方法，但是使用Integer的guarantee和mock方法（即赋予它一定的数据转换能力），那么可以如下创建校验器：
+
+``` javascript
+const { Integer, or, assemble } = IPA;
+
+const intTransfer = new IPA(assemble(
+    or(String, Integer),
+    Integer,
+    Integer,
+));
+
+intTransfer.check('1'); // true
+intTransfer.check(1.2); // true
+intTransfer.guarantee('1'); // 1
+intTransfer.guarantee(1.2); // 1
+intTransfer.mock(); // 5 (随机整数)
 ```
 
 
