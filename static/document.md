@@ -434,7 +434,7 @@ const schema = new IPA([[Number, 'cols'], 'rows']);
 }
 ```
 
-![image](/static/mach.svg)
+![image](/ipa-document/static/mach.svg)
 
 下面的伪代码以一个简化了的数组通项校验的**规则函数**为例，说明规则函数的结构和编译细节，其中template为规则声明：
 
