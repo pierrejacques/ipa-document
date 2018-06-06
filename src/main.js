@@ -1,16 +1,19 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import axios from 'axios'
 import App from './App'
 import router from './router'
 import IPA from 'ipa.js'
-import { Autocomplete } from 'element-ui';
-import logo from '@/utils/texlogo';
+import { Autocomplete } from 'element-ui'
+import logo from '@/utils/texlogo'
+
+axios.defaults.baseURL = '/ipa-document'
 
 window.IPA = IPA;
 Vue.config.productionTip = false
 
-Vue.component(Autocomplete.name, Autocomplete);
+Vue.component(Autocomplete.name, Autocomplete)
 
 /* eslint-disable no-new */
 new Vue({
@@ -18,6 +21,6 @@ new Vue({
   router,
   components: { App },
   template: '<App/>'
-});
+})
 
-console.log(logo);
+console.log(logo)

@@ -75,7 +75,7 @@ export default {
         };
     },
     mounted() {
-        axios.get('static/document.md').then(res => {
+        axios.get('/static/document.md').then(res => {
             this.content = res.data;
         });
     },
