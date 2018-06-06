@@ -34,7 +34,7 @@ export default {
         md,
     },
     created() {
-        axios.get('/static/intro.md').then(res => {
+        axios.get('static/intro.md').then(res => {
             this.content = res.data;
         });
     },
