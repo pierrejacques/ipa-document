@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="840px" height="797px" viewBox="0 0 840 797" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.1 (47250) - http://www.bohemiancoding.com/sketch -->
+    <title>mach</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="27" width="696" height="626"></rect>
+        <filter x="-1.0%" y="-0.8%" width="102.0%" height="102.2%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.333559783 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="v3.0.0" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="mach">
+            <g id="arrow" transform="translate(371.000000, 10.000000)" fill="#50E3C2">
+                <path d="M25,53 L12,53 L29.5,25 L47,53 L35,53 L35,99 L25,99 L25,53 Z" id="Combined-Shape" transform="translate(29.500000, 62.000000) rotate(-180.000000) translate(-29.500000, -62.000000) "></path>
+                <text id="compile" font-family="PTMono-Bold, PT Mono" font-size="14" font-weight="bold">
+                    <tspan x="0" y="12">compile</tspan>
+                </text>
+            </g>
+            <g id="IPA-instance" transform="translate(72.000000, 131.000000)">
+                <g id="instance">
+                    <g id="Rectangle">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                        <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    </g>
+                    <text id="IPA-instance" font-family="PTMono-Bold, PT Mono" font-size="14" font-weight="bold" fill="#4A90E2">
+                        <tspan x="275" y="12">IPA instance</tspan>
+                    </text>
+                    <text id="mock" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                        <tspan x="8" y="89">mock</tspan>
+                    </text>
+                    <text id="guarantee" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                        <tspan x="8" y="74">guarantee</tspan>
+                    </text>
+                    <text id="check" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                        <tspan x="8" y="59">check</tspan>
+                    </text>
+                    <text id="[[IPA_core]]" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#C54D4D">
+                        <tspan x="8" y="44">[[IPA_core]]</tspan>
+                    </text>
+                    <rect id="Rectangle-3" fill="#F7F7F7" x="101" y="32" width="585" height="612"></rect>
+                    <rect id="Rectangle-4" fill="#EEEEEE" x="232" y="40" width="440" height="591"></rect>
+                    <text id="name:" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#C54D4D">
+                        <tspan x="241" y="197">name:</tspan>
+                    </text>
+                    <text id="value:" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#C54D4D">
+                        <tspan x="241" y="258">value:</tspan>
+                    </text>
+                    <text id="type:" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#C54D4D">
+                        <tspan x="241" y="319">type:</tspan>
+                    </text>
+                    <text id="data:" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#C54D4D">
+                        <tspan x="241" y="398">data:</tspan>
+                    </text>
+                    <text id="id:" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#C54D4D">
+                        <tspan x="241" y="57">id:</tspan>
+                    </text>
+                    <text id="object_check" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                        <tspan x="110" y="65">object_check</tspan>
+                    </text>
+                    <text id="object_guarantee" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                        <tspan x="110" y="80">object_guarantee</tspan>
+                    </text>
+                    <text id="object_mock" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                        <tspan x="110" y="95">object_mock</tspan>
+                    </text>
+                    <text id="[[closure]]" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#C54D4D">
+                        <tspan x="110" y="50">[[closure]]</tspan>
+                    </text>
+                    <rect id="Rectangle-5" fill="#E7E7E7" x="287" y="45" width="374" height="134"></rect>
+                    <rect id="Rectangle-6" fill="#DDDDDD" x="416" y="50" width="238" height="124"></rect>
+                    <text id="or_check" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                        <tspan x="296" y="75">or_check</tspan>
+                    </text>
+                    <text id="or_guarantee" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                        <tspan x="296" y="90">or_guarantee</tspan>
+                    </text>
+                    <text id="or_mock" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                        <tspan x="296" y="105">or_mock</tspan>
+                    </text>
+                    <g id="Group" transform="translate(466.000000, 54.000000)">
+                        <rect id="Rectangle-7" fill="#D7D7D7" x="0" y="0" width="181" height="55"></rect>
+                        <text id="Number_check" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="6.66842105" y="14">Number_check</tspan>
+                        </text>
+                        <text id="Number_guarantee" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="6.66842105" y="29">Number_guarantee</tspan>
+                        </text>
+                        <text id="Number_mock" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="6.66842105" y="44">Number_mock</tspan>
+                        </text>
+                    </g>
+                    <g id="Group-2" transform="translate(466.000000, 114.000000)">
+                        <rect id="Rectangle-7-Copy" fill="#D7D7D7" x="0" y="0" width="181" height="55"></rect>
+                        <text id="String_check" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="6.66842105" y="14">String_check</tspan>
+                        </text>
+                        <text id="String_guarantee" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="6.66842105" y="29">String_guarantee</tspan>
+                        </text>
+                        <text id="String_mock" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="6.66842105" y="44">String_mock</tspan>
+                        </text>
+                    </g>
+                    <text id="0:" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#C54D4D">
+                        <tspan x="427" y="67">0:</tspan>
+                    </text>
+                    <text id="1:" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#C54D4D">
+                        <tspan x="427" y="124">1:</tspan>
+                    </text>
+                    <g id="Group-3" transform="translate(287.000000, 185.000000)">
+                        <rect id="Rectangle-7-Copy-2" fill="#E7E7E7" x="0" y="0" width="374" height="55"></rect>
+                        <text id="String_check-Copy" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="14">String_check</tspan>
+                        </text>
+                        <text id="String_guarantee-Copy" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="29">String_guarantee</tspan>
+                        </text>
+                        <text id="String_mock-Copy" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="44">String_mock</tspan>
+                        </text>
+                    </g>
+                    <g id="Group-3-Copy" transform="translate(287.000000, 246.000000)">
+                        <rect id="Rectangle-7-Copy-2" fill="#E7E7E7" x="0" y="0" width="374" height="55"></rect>
+                        <text id="Number_check" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="14">Number_check</tspan>
+                        </text>
+                        <text id="Number_guarantee" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="29">Number_guarantee</tspan>
+                        </text>
+                        <text id="Number_mock" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="44">Number_mock</tspan>
+                        </text>
+                    </g>
+                    <g id="Group-3-Copy-2" transform="translate(287.000000, 307.000000)">
+                        <rect id="Rectangle-7-Copy-2" fill="#E7E7E7" x="0" y="0" width="374" height="73"></rect>
+                        <text id="Range_check" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="34">Range_check</tspan>
+                        </text>
+                        <text id="[[closure]]" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#C74C4A">
+                            <tspan x="8" y="18">[[closure]]</tspan>
+                        </text>
+                        <rect id="Rectangle-8" fill="#DDDDDD" x="115" y="6" width="252" height="17"></rect>
+                        <text id="Range_guarantee" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="49">Range_guarantee</tspan>
+                        </text>
+                        <text id="Range_mock" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="64">Range_mock</tspan>
+                        </text>
+                    </g>
+                    <g id="Group-3-Copy-3" transform="translate(287.000000, 386.000000)">
+                        <rect id="Rectangle-7-Copy-2" fill="#E7E7E7" x="0" y="0" width="374" height="236"></rect>
+                        <text id="array_check" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="7" y="34">array_check</tspan>
+                        </text>
+                        <text id="[[closure]]" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#C74C4A">
+                            <tspan x="7" y="20">[[closure]]</tspan>
+                        </text>
+                        <rect id="Rectangle-8" fill="#DDDDDD" x="116" y="10" width="249" height="218"></rect>
+                        <text id="array_guarantee" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="7" y="49">array_guarantee</tspan>
+                        </text>
+                        <text id="array_mock" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="7" y="64">array_mock</tspan>
+                        </text>
+                    </g>
+                    <text id="[[closure]]-copy" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#C54D4D">
+                        <tspan x="296" y="62">[[closure]]</tspan>
+                    </text>
+                    <text id="min:-1-max:-4" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal">
+                        <tspan x="410" y="325" fill="#C54D4D">min:</tspan>
+                        <tspan x="438.8" y="325" fill="#4D73C5"> </tspan>
+                        <tspan x="446" y="325" fill="#4A4A4A">1</tspan>
+                        <tspan x="453.2" y="325" fill="#4D73C5">		</tspan>
+                        <tspan x="494" y="325" fill="#C54D4D">max:</tspan>
+                        <tspan x="522.8" y="325" fill="#4D73C5"> </tspan>
+                        <tspan x="530" y="325" fill="#4A4A4A">4</tspan>
+                    </text>
+                    <text id="name:-copy" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#C54D4D">
+                        <tspan x="413" y="416">name:</tspan>
+                    </text>
+                    <text id="amount:" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#C54D4D">
+                        <tspan x="413" y="556">amount:</tspan>
+                    </text>
+                    <text id="value:" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#C54D4D">
+                        <tspan x="413" y="480">value:</tspan>
+                    </text>
+                    <g id="Group-3-Copy-4" transform="translate(463.000000, 404.000000)">
+                        <rect id="Rectangle-7-Copy-2" fill="#D7D7D7" x="0" y="0" width="181" height="55"></rect>
+                        <text id="String_check-Copy" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="14">String_check</tspan>
+                        </text>
+                        <text id="String_guarantee-Copy" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="29">String_guarantee</tspan>
+                        </text>
+                        <text id="String_mock-Copy" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="44">String_mock</tspan>
+                        </text>
+                    </g>
+                    <g id="Group-3-Copy-6" transform="translate(463.000000, 544.000000)">
+                        <rect id="Rectangle-7-Copy-2" fill="#D7D7D7" x="0" y="0" width="181" height="55"></rect>
+                        <text id="Integer_check" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="14">Integer_check</tspan>
+                        </text>
+                        <text id="Integer_guarantee" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="29">Integer_guarantee</tspan>
+                        </text>
+                        <text id="Integer_mock" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="44">Integer_mock</tspan>
+                        </text>
+                    </g>
+                    <g id="Group-3-Copy-5" transform="translate(463.000000, 465.000000)">
+                        <rect id="Rectangle-7-Copy-2" fill="#D7D7D7" x="0" y="0" width="181" height="71"></rect>
+                        <text id="number_check" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="32">number_check</tspan>
+                        </text>
+                        <text id="number_guarantee" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="47">number_guarantee</tspan>
+                        </text>
+                        <text id="number_mock" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#4D73C5">
+                            <tspan x="8" y="62">number_mock</tspan>
+                        </text>
+                    </g>
+                    <rect id="Rectangle-9" fill="#C7C7C7" x="556" y="469" width="83" height="15"></rect>
+                    <text id="[[closure]]-copy-2" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal" fill="#C74C4A">
+                        <tspan x="470" y="480">[[closure]]</tspan>
+                    </text>
+                    <text id="default:-0" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal">
+                        <tspan x="562" y="481" fill="#C54D4D">default:</tspan>
+                        <tspan x="619.6" y="481" fill="#4D73C5"> </tspan>
+                        <tspan x="626.8" y="481" fill="#4A4A4A">0</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
