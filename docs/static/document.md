@@ -353,7 +353,7 @@ table.mock({ cols: 2, rows: 3 });
 table.mock({}, true);  //  { thead: [], body: [] }
 ```
 
-### *函数 (v3.2.0+)
+### 函数
 
 通过声明`Function`来要求指定字段必须是函数（方法）。
 
@@ -434,7 +434,7 @@ const schema = new IPA([[Number, 'cols'], 'rows']);
 }
 ```
 
-![image](/static/mach.svg)
+![image](/ipa-document/static/mach.svg)
 
 下面的伪代码以一个简化了的数组通项校验的**规则函数**为例，说明规则函数的结构和编译细节，其中template为规则声明：
 
@@ -666,7 +666,7 @@ personSchema.guarantee(p2); // Person{fn:'John',ln:'Doe'}
 personSchema.mock(); // Person{fn:'John',ln:'Doe'}
 ```
 
-### *组合校验器：assemble (v3.2.0+)
+### 组合校验器：assemble
 
 assemble用于组合几个校验模板的方法，生成新的模版：
 
