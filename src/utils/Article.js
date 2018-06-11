@@ -85,6 +85,7 @@ export default class Article {
         this.wrapper = null;
         this.attr = attr;
         this.ready = !interactive;
+        this.scrollTimer = null;
         if (interactive) {
             this.html = mark(this.html, tags, attr, this.menu);
             this.first = first;
@@ -131,10 +132,17 @@ export default class Article {
     }
 
     scrollTo(position) {
-        this.wrapper.scrollTop = position;
+        const time = 300;
+        const delta = (this.wrapper.scrollTop - position) / time;
+        let count = 0;
+        this.scrollTimer = setInterval(() => {
+            if (++count === time) clearInterval(this.scrollTimer);
+            this.wrapper.scrollTop += delta;
+        }, 1);
     }
 
     updateCurrent() {
+        clearInterval(this.scrollTimer);
         const position = this.wrapper.scrollTop + CALIB;
         if (this.current.pre && this.current.dom && position < this.current.dom.offsetTop) {
             this.current = this.current.pre;
