@@ -730,15 +730,12 @@ export default IPA.getInstance('numOrStr');
 // b.js，后被执行
 import IPA from 'ipa.js';
 const { or, Integer } = IPA;
-export default () => {
-    IPA.inject('numOrStr', or(Integer, String))
-};
+
+IPA.inject('numOrStr', or(Integer, String))
 
 // index.js, 主模块
 import numOrStr from './a';
-import init from './b';
-
-init();
+import './b';
 
 Ajax.get(url).then(
     res => {
