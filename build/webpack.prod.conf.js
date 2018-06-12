@@ -32,7 +32,6 @@ const webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env,
       'process.isProduction': JSON.stringify(true),
-      'process.baseURL': JSON.stringify('/ipa-document'),
     }),
     new UglifyJsPlugin({
       uglifyOptions: {

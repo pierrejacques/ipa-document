@@ -8,7 +8,7 @@ import IPA from 'ipa.js'
 import { Autocomplete } from 'element-ui'
 import logo from '@/utils/texlogo'
 
-axios.defaults.baseURL = process.BASE_URL;
+axios.defaults.baseURL = process.isProduction ? '/ipa-document' : '';
 
 window.IPA = IPA;
 Vue.config.productionTip = false
