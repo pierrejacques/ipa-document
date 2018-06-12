@@ -132,12 +132,13 @@ export default class Article {
     }
 
     scrollTo(position) {
-        const time = 300;
-        const delta = (this.wrapper.scrollTop - position) / time;
+        const time = 50; // FIXME: should have a better way
+        const base = this.wrapper.scrollTop;
+        const delta = (position - base) / time;
         let count = 0;
         this.scrollTimer = setInterval(() => {
-            if (++count === time) clearInterval(this.scrollTimer);
-            this.wrapper.scrollTop += delta;
+            if (++count >= time) clearInterval(this.scrollTimer);
+            this.wrapper.scrollTop = base + count * delta;
         }, 1);
     }
 
