@@ -26,7 +26,7 @@ const appRouter = new Router({
 })
 
 appRouter.beforeEach((to, from, next) => {
-  axios.post('http://www.zhongxiaotuan.com/api/monitor/push', {
+  axios.post('https://www.zhongxiaotuan.com/api/monitor/push', {
     stamp: +new Date(),
     type: 'PageView',
     isProd: process.isProduction,
