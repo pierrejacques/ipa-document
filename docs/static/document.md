@@ -783,27 +783,25 @@ mock主要被用在组件间属性传递和ajax请求返回中。
 // ...
 props: {
     data: {
-        default: dataSchema.mock(),
-    }
-}
+        validator: (v) => dataSchema.check(v),
+        default: () => dataSchema.mock(),
+    },
+},
 // ...
 ```
 
- 对于后者，若另一端接口还在开发阶段，可以在Promise的reject回调中使用：
+对于后者，若另一端接口还在开发阶段，可以在Promise的reject回调中使用：
  
 ```javascript
 // ...
 
-promise.then(
-    res => {
-        this.data = dataSchema.guarantee(res.data); // 或用check
-        // 其他操作
-    },
-    err => {
-        this.data = dataSchema.mock();
-        // 其他报错处理
-    }
-);
+promise.then(res => {
+    this.data = dataSchema.guarantee(res.data); // 或用check
+    // 其他操作
+}, err => {
+    this.data = dataSchema.mock();
+    // 其他报错处理
+});
 
 // ...
 ```
