@@ -1,7 +1,6 @@
 <template>
     <div class="intro-page">
         <header class="header box">
-            <!-- <img src="../asset/img/logo.svg" class="logo" alt=""> -->
             <hgroup class="hgroup">
                 <h1 class="title">IPA.js</h1>
                 <h2 class="sub-title">javascript声明式数据结构校验库</h2>
@@ -13,6 +12,12 @@
 
         </header>
         <main class="content box" @click="onClickContent">
+            <!-- <p class="pre-intro">
+                IPA是一个声明式数据结构校验库。
+                通过先声明后操作的方式实现对数据结构的校验、保障和随机生成。
+                将IPA应用于浏览器端或node端的数据接口层，可以最大程度地避免代码受不安全数据的威胁而产生异常。
+                IPA采用先编译后执行的实现策略，运行迅速。
+            </p> -->
             <md :input="content" :interactive="false"/>
         </main>
     </div>
@@ -91,6 +96,7 @@ export default {
     .content {
         min-height: 100vh;
         margin: 35px @margin 0;
+        padding-top: 50px;
         background: white;
     }
 

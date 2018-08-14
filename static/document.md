@@ -1,30 +1,57 @@
 ## 一、校验方法
 
 ### check方法
-用于对数据结构的瑕疵零容忍的场景。它接受一个待检验的数据作为参数，并返回一个布尔值作为校验结果：
 
-```javascript
-const arrSchema = new IPA([String]);
+用来校验一个数据是否符合声明的数据结构，仅在完全符合声明时返回`true`
 
-arrSchema.check(['a', 'b', 'c']); // true
-arrSchema.check({ 0: 'a', 1: 'b', 3: 'c', length: 3 }); // false
+- 签名：
+
+``` ts
+check(input: any, onError?: IPAError => void): boolean
 ```
 
-### guarantee方法
-用来处理一个合法性未知的数据，并承诺返回一个合法的数据。它不仅可以用于提高系统的容错率，也可以用来生成一个空的合法结构：
-
-guarantee方法接受3个输入参数，其中首个必填：`guarantee(data:any [,deepCopy:boolean = true [,strictMode:boolean = false]])`
-
-- 第一个参数接受需要被保障的数据：
+- 示例：
 
 ```javascript
-const formSchema = new IPA({
+const validator = new IPA([String]);
+
+validator.check(['a', 'b', 'c']); // true
+validator.check({ 0: 'a', 1: 'b', 3: 'c', length: 3 }); // false
+```
+
+
+
+### guarantee方法
+
+用来处理一个合法性未知的数据，返回一个合法的数据
+
+guarantee方法接受3个输入参数，其中首个必填：
+
+- 签名：
+
+``` ts
+guarantee(
+    input: any,
+    options?: { 
+    	copy?: boolean = true,
+    	strict?: boolean = false,
+    },
+	onError?: IPAError => void,
+)
+```
+
+
+
+- 示例
+
+```javascript
+const validator = new IPA({
     username: String,
     password: String,
     repeat: String,
 });
 
-formSchema.guarantee({
+validator.guarantee({
     username: 'John Doe',
     password: 123,
     repeat: '123',
@@ -35,7 +62,7 @@ formSchema.guarantee({
 //      repeat: '123',
 //  }
 
-formSchema.guarantee(null);
+validator.guarantee(null);
 //  {
 //      username: '',
 //      password: '',
@@ -43,34 +70,52 @@ formSchema.guarantee(null);
 // }
 ```
 
-- 第二个参数为布尔型，表示是否需要对原数据进行深拷贝，考虑到对保护数据流单向性的保护，其默认值为`true`：
+
+
+- 不进行深拷贝：`guarantee`默认会对被校验的数据进行深拷贝后进行保障，将第二个参数的`copy`字段设为`false`关闭深拷贝
 
 ```javascript
 const schema = new IPA({ prop: String });
 
 const obj = { prop: 123 };
-schema.guarantee(obj) === obj; // false
-schema.guarantee(obj, false) === obj; // true
+
+obj === schema.guarantee(obj); // false
+obj === schema.guarantee(obj, {
+    copy: false
+}) ; // true
 ```
 
-- 第三个参数为布尔型，表示是否需要启用**严格模式**进行数据保障，默认值为`false`。在一般模式下，guarantee倾向于对类型错误的数据进行类型转化，在严格模式下则会一律使用一个合法的默认值来替换。转换规则和默认值的取值详见[校验语法](#/doc#校验规则声明)
+
+
+- 使用严格模式：`guarantee`倾向于对类型错误的数据进行转化，将第二个参数的`strict`字段设为`true`开启严格模式。严格模式下不合法的数据会统一被一个合法的默认值替换。
 
 ```javascript
 const schema = new IPA(Number);
 
 schema.guarantee('123'); // 123
-schema.guarantee('123', true, true); // 0
+schema.guarantee('123', {
+    strict: true,
+}); // 0
 ```
 
 
-*需要注意的是guarantee方法在容错的同时势必存在令数据失真的风险，如果对数据的准确性有较严格要求，应该使用严格模式以减小失真度或改用check方法*
+*需要注意的是`guarantee`方法在容错的同时势必存在令数据失真的风险，如果对数据的准确性有较严格要求，应该使用严格模式以减小失真度或改用`check`方法*
+
 
 
 ### mock方法
 
-随机生成合法的数据，方便开发。它接受两个参数，都为非必填：`mock([setting:object = {} [, prod:boolean = false]])`
+生成符合声明的随机数据
 
-- 第一个参数为一个对象，用于在mock含数组长度要求的内容时指定长度：
+- 签名：
+
+``` ts
+mock(assignment: Object, isProductionEnv: boolean = false): any
+```
+
+- 示例：
+
+第一个参数为数组长度占位符赋值
 
 ```javascript
 const schema = new IPA([Number, 'len']);
@@ -82,7 +127,7 @@ schema.mock(); //  [4, 2, 7, 10, 5, 2]
 schema.mock({ len: 3 }); // [6, 8, 1]
 ```
 
-- 第二个参数为布尔型，表示当前的mock的行为是否为**生产环境行为**，默认值为`false`。在生产环境行为下，mock方法不再随机地生成数据，而是给出尽可能基本的具有合法结构的数据，其结果类似`guarantee(undefined)`的结果。这样做是为了避免开发时的mock影响到线上的真实数据，并减少上线前的代码改动量。可以通过配置`IPA.isProductionEnv`来全局地改变mock的行为，不过对于具有第二个参数输入的mock方法，还是以输入的参数为准。关于全局环境的配置以及如何在MV*工程中更合理地使用mock，详见[工程化](#/doc#工程化)
+将第二个参数设为`true`使用生产环境行为：不再随机地生成数据，而是给出尽可能基本的具有合法结构的数据
 
 ```javascript
 const schema = new IPA([Number]);
@@ -102,9 +147,9 @@ schema.mock({}, true); // []
 
 guarantee在数据类型不符以及mock时，按如下规则返回：
 
-| 方法 |一般模式/开发环境 | 严格模式/生产环境 |  
-| --- | --- | --- | 
-| guarantee | 尝试强转数字并返回，如结果为`NaN`或`Infinite`，返回`0` | 返回`0` | 
+| 方法 |一般模式/开发环境 | 严格模式/生产环境 |
+| --- | --- | --- |
+| guarantee | 尝试强转数字并返回，如结果为`NaN`或`Infinite`，返回`0` | 返回`0` |
 | mock | 随机生成一个`0-10`之间的整数 | 返回`0` |
 
 
@@ -167,9 +212,9 @@ str.mock({}, true); // ''
 
 在guarantee类型不符以及mock时，按如下规则返回：
 
-| 方法 |一般模式/开发环境 | 严格模式/生产环境 |  
-| --- | --- | --- | 
-| guarantee | 返回默认值 | 返回默认值 | 
+| 方法 |一般模式/开发环境 | 严格模式/生产环境 |
+| --- | --- | --- |
+| guarantee | 返回默认值 | 返回默认值 |
 | mock | 随机生成一个字符串 | 返回默认值 |
 
 ```javascript
@@ -188,9 +233,9 @@ str.mock({}, true); // '--'
 
 guarantee在数据类型不符以及mock时，按如下规则返回：
 
-| 方法 |一般模式/开发环境 | 严格模式/生产环境 |  
-| --- | --- | --- | 
-| guarantee | 强转布尔 | 返回`false` | 
+| 方法 |一般模式/开发环境 | 严格模式/生产环境 |
+| --- | --- | --- |
+| guarantee | 强转布尔 | 返回`false` |
 | mock | 随机产生`true`或`false` | 返回`false` |
 
 ```javascript
@@ -208,9 +253,9 @@ bool.mock({}, true); // false
 
 在guarantee类型不符以及mock时，按如下规则返回：
 
-| 方法 |一般模式/开发环境 | 严格模式/生产环境 |  
-| --- | --- | --- | 
-| guarantee | 返回默认值 | 返回默认值 | 
+| 方法 |一般模式/开发环境 | 严格模式/生产环境 |
+| --- | --- | --- |
+| guarantee | 返回默认值 | 返回默认值 |
 | mock | 随机产生`true`或`false` | 返回默认值 |
 
 ```javascript
@@ -260,9 +305,9 @@ obj.mock({}, true); // { name: '', value: -1 }
 
 在guarantee方法下数据不是数组和mock方法下，按如下规则返回：
 
-| 方法 |一般模式/开发环境 | 严格模式/生产环境 |  
-| --- | --- | --- | 
-| guarantee | 尝试强转数组并返回 | 返回`[]` | 
+| 方法 |一般模式/开发环境 | 严格模式/生产环境 |
+| --- | --- | --- |
+| guarantee | 尝试强转数组并返回 | 返回`[]` |
 | mock | 返回`[]` | 返回`[]` |
 
 
@@ -365,6 +410,40 @@ func.guarantee(undefined); // () => {}
 func.mock(); // () => {}
 ```
 
+
+
+### 可缺省
+
+通过在字段名后加上`?`来表示可缺省（可为`null`或`undefined`）的字段。
+
+``` js
+const obj = new IPA({
+    requiredProp: Number,
+    'unrequiredProp?': Number,
+});
+
+obj.check({
+	requiredProp: 12,
+    unrequiredProp: null,
+}); // true
+```
+
+
+
+通过`\?`来表示必填的带问号的字段。
+
+``` js
+const obj = new IPA({
+    'stillRequiredProp\\?': Number, 
+});
+
+obj.check({
+    'stillRequiredProp?': 12,
+}); // true
+```
+
+
+
 ### 旁通规则
 
 #### null
@@ -406,9 +485,13 @@ const sub = new IPA([Number, 'cols']);
 const schema = new IPA([[Number, 'cols'], 'rows']);
 ```
 
-在结果上几乎没有区别。但在过程却有所不同，前者对`[Number, 'cols']`的声明只进行了一次编译，从而更快，并占用更小的内存。因而在需要复用一部分声明时，还是建议使用前者的做法。
+在行为上完全一致。
+
+在需要复用一部分声明时，建议使用前者的做法，可以一定程度减少IPA重复编译声明。
 
 需要注意的是在使用IPA嵌套语法时，被嵌套的实例的长度参数也会污染到当前实例中，在使用中需要格外注意。
+
+
 
 ### 自定义校验
 
@@ -416,7 +499,13 @@ const schema = new IPA([[Number, 'cols'], 'rows']);
 
 为了方便理解自定义规则的写法，这里首先要介绍一下IPA嵌套规则校验的实现细节。
 
-在IPA中，所有的**规则声明语法**最终都会被转换成具有统一结构的**规则函数**，然后通过传入一个**编译函数（compile）**作为回调函数，通过闭包嵌套，得到一个可以直接执行check、guarantee和mock方法的**规则对象**。最后为其封装一层实例层面的接口来实现对这三个方法的间接访问。
+在IPA中，所有的**规则声明语法**最终都会被转换成具有统一结构的**规则函数**，然后通过传入一个IPA上下文对象（IPAContext）来作为参数得到一个可以直接执行check、guarantee和mock方法的**规则对象**。最后为其封装一层实例层面的接口来实现对这三个方法的间接访问。
+
+
+
+`IPAContext`对象包含了一系列产生规则对象可能需要的工具，包括编译函数`compile`，错误捕获器`catcher`，缓存`cache`。
+
+
 
 如下的**规则声明**经过编译，会得到具有下图所示结构的**IPA实例**：
 
@@ -439,7 +528,7 @@ const schema = new IPA([[Number, 'cols'], 'rows']);
 下面的伪代码以一个简化了的数组通项校验的**规则函数**为例，说明规则函数的结构和编译细节，其中template为规则声明：
 
 ```javascript
-function arraySimple (compile) { // 传入编译函数
+function arraySimple ({ compile }) { // 传入编译函数
     // 编译阶段执行的代码，通常用于递归编译子模板，形成闭包
     const subRule = compile(template[0]); // 取首项作为子声明，并编译成规则对象
     // 返回具有check，guarantee和mock方法的规则对象
@@ -462,13 +551,15 @@ function arraySimple (compile) { // 传入编译函数
 }
 ```
 
+
+
 #### 自定义规则函数
 
 自定义规则只需遵循上述**规则函数**的结构，提供到**规则声明**中即可。如下示例了一个约定的HTTP响应数据的基本结构，以及针对不同响应类型的扩展结构：
 
 ```javascript
 const Res = (subtemplate = Object) => {
-    return (compile) => {
+    return ({ compile }) => {
         return compile({
             code: Number,
             msg: String,
@@ -490,7 +581,7 @@ const dataSchema2 = new IPA(Res({
 
 ```javascript
 function and (...templates) {
-    return (compile) => {
+    return ({ compile }) => {
         const rules = templates.map(template => compile(template));
         return {
             check(val) {
@@ -500,6 +591,7 @@ function and (...templates) {
     }
 }；
 ```
+
 
 
 ## 三、扩展规则
@@ -512,9 +604,9 @@ function and (...templates) {
 
 在它的guarantee方法在的输入数据不是整型，和调用mock方法时，按如下规则返回：
 
-| 方法 |一般模式/开发环境 | 严格模式/生产环境 |  
-| --- | --- | --- | 
-| guarantee | 尝试强转整数并返回 | 返回`0` | 
+| 方法 |一般模式/开发环境 | 严格模式/生产环境 |
+| --- | --- | --- |
+| guarantee | 尝试强转整数并返回 | 返回`0` |
 | mock | 随机生成一个`0-10`之间的整数 | 返回`0` |
 
 
@@ -528,6 +620,8 @@ num.mock(); // 4 (随机值)
 num.mock({}, true); // 0
 ```
 
+
+
 ### 数值范围：Range
 
 Range函数用来生成一个数字范围的校验规则。它接受三个参数：`Range(min:number, max:number [, isFloat:boolean = false ]);`
@@ -535,9 +629,9 @@ Range函数用来生成一个数字范围的校验规则。它接受三个参数
 
 在它的guarantee方法在的输入数据不在范围中时，和调用mock方法时，按如下规则返回：
 
-| 方法 |一般模式/开发环境 | 严格模式/生产环境 |  
-| --- | --- | --- | 
-| guarantee | 非数字先转数字，过小返回`min`，过大返回`max` | 非数字先转`0`，过小返回`min`，过大返回`max` | 
+| 方法 |一般模式/开发环境 | 严格模式/生产环境 |
+| --- | --- | --- |
+| guarantee | 非数字先转数字，过小返回`min`，过大返回`max` | 非数字先转`0`，过小返回`min`，过大返回`max` |
 | mock | 根据`isFloat`随机生成一个范围内的整数或浮点数 | 返回`min` |
 
 ```javascript
@@ -558,15 +652,16 @@ percentage.mock({}, true); // 0
 ```
 
 
+
 ### 枚举：From
 
 当要求数据必须来自一个特定的有限的集合时，采用From规则。From规则接受任意多个参数组成集合。只要被校验的数据与集合中的某一值相等（对于对象，采用深度比较，只要两个对象的每个属性都一致即认为相等），check方法就返回`true`。
 
 在它的guarantee方法在的输入数据不与集合中的任何项目相同时，以及调用mock方法时，按如下规则返回：
 
-| 方法 |一般模式/开发环境 | 严格模式/生产环境 |  
-| --- | --- | --- | 
-| guarantee | 返回集合任意值的深拷贝 | 返回集合内首个声明的值 | 
+| 方法 |一般模式/开发环境 | 严格模式/生产环境 |
+| --- | --- | --- |
+| guarantee | 返回集合任意值的深拷贝 | 返回集合内首个声明的值 |
 | mock | 返回集合任意值的深拷贝 | 返回集合内首个声明的值 |
 
 ```javascript
@@ -593,8 +688,10 @@ codeSchema.mock(null); // { label: 'Server Error', value: 500 } （随机值）
 codeSchema.mock({}, true); // { label: 'OK', value: 200 } （首项）
 ```
 
+
+
 ### 字典：Dict
-    
+
 Dict函数声明一种类似Python中Dict的概念的对象，要求改对象的每个值具有特定的数据结构。它的输入参数即用于声明这种结构：
 check方法只在所有属性合法时返回`true`，guarantee方法遍历所有存在的属性，mock方法在开发环境下返回一个具有随机属性名和属性个数的合法对象，在生产环境下返回一个空对象。
 
@@ -609,7 +706,9 @@ strDict.mock(); // { 'cillum': 'quis', 'et': 'magna'}（随机值）
 strDict.mock({}, true); // {}
 ```
 
-### 数组逐项：Each
+
+
+### 数组逐项校验：Each
 
 数组逐项规则逐项校验一个数组的每一项，用于数组的每项的数据类型不一致的情况下。它接受两个输入参数：`Each(template:array [, strictLength:boolean = true])`。第一个参数为数组的逐项规则声明，第二个参数为一个布尔值，表明是否对数组的长度进行严格要求，默认值为`true`。
 
@@ -629,6 +728,35 @@ each.mock(); // [4, 'ad']（随机值）
 each.mock({}, true); // [0, '']
 ```
 
+
+
+### 递归结构：recurse
+
+由于预编译的特性，IPA不能直接接受包含循环引用的对象作为数据结构声明。可以通过`IPA.recurse`来表示一个具有任意深度的树状递归结构：
+
+``` js
+const tree = new IPA(IPA.recurse([
+    value: Number,
+    children: '$$'
+]));
+```
+
+递归结构的第二个参数是递归的配置项，结构如下:
+
+``` ts
+{
+    marker: string = '$$'; // 递归字段的标记
+    border: any = IPA.From(null); // 边界的声明，默认取null
+    condition: any => boolean; // 对边界情况的判定。
+}
+```
+
+上述较复杂的是`condition`函数。在IPA对`recurse`结构进行`guarantee`并遇到既不符合递归结构声明结构也不符合边界声明的数据时就无法判断应该是向边界进行转换还是按照递归结构进行转换，此时IPA会将数据传给`condition`函数来进行判断，返回`true`表示向边界进行转换。
+
+对于`condition`字段缺省的情况，`IPA`可以通过对模板收敛性的考量自己决定用什么`condition`函数并能满足绝大部分使用场景。
+
+
+
 ### 或规则：or
 
 或规则允许数据符合多条规则。check方法在符合任意一条规则时即返回`true`，guarantee和mock方法都服从输入的第一条规则。
@@ -642,6 +770,8 @@ numOrStr.check('a'); // true
 numOrStr.guarantee(null); // 0
 numOrStr.mock(); // 7（随机值）
 ```
+
+
 
 ### 类校验：asClass
 
@@ -665,6 +795,8 @@ personSchema.check(p2); // false
 personSchema.guarantee(p2); // Person{fn:'John',ln:'Doe'}
 personSchema.mock(); // Person{fn:'John',ln:'Doe'}
 ```
+
+
 
 ### 组合校验器：assemble
 
@@ -693,23 +825,87 @@ intTransfer.mock(); // 5 (随机整数)
 ```
 
 
-## 四、工程化
-### mock与生产环境
 
-通过配值`IPA.isProductionEnv`来全局配置当前的运行环境。`true`表示在生产环境，`false`表示在开发环境，默认值为`false`。除非通过第二个参数进行特殊设定，工程内的所有mock默认依照`IPA.isProductionEnv`的设置来执行相应的mock行为。
+## 四、应用示例
+
+IPA适用于需要与外部发生数据交换的使用场景，对于内部数据交换的数据校验，建议使用Typescript等编译时解决方案，使用IPA可能会造成无谓的运行时性能浪费。
+
+### 作为Ajax拦截器使用（以axios为例）
+
+``` js
+import IPA, { recurse } from 'ipa.js';
+
+// 校验器设置
+const validators = {
+    'api/menu/list': recurse([{
+        name: String,
+        path: String,
+        children: '$$',
+    }]),
+    'api/menu/detail': {
+        name: String,
+        path: String,
+        table: {
+            thead: [String, 'cols'],
+            tbody: [[Number, 'cols']],
+        },
+      	'isEditable?': Boolean,  
+    },
+};
+
+// 创建实例和设置报错钩子
+Object.entries(validators).forEach(([url, template]) => {
+    validators[url] = new IPA(template).onError((err) => {
+        console.warn(`IPA Exception @${url}`, err);
+        err.stopPropagation();
+    });
+});
+
+// 拦截设置
+axios.interceptors.response.use((res) => {
+    const validator = validators.get(res.config.url); // 根据url查询IPA校验器
+    if (validator) {
+        res.data = validator.guarantee(res.data); // 保障数据
+    }
+    return res;
+});
+```
+
+
+### 在Promise回调中进行mock
+
+若另一端接口还在开发阶段，可以在Promise的reject回调中使用：
+
+```javascript
+IPA.isProductionEnv = process.env === 'production';
+
+// ...
+
+somePromise.then(res => {
+    this.data = dataSchema.guarantee(res.data); // 或用check
+    // 其他操作
+}, err => {
+    this.data = dataSchema.mock();
+    // 其他报错处理
+});
+
+// ...
+```
+
+通过配值`IPA.isProductionEnv`来全局配置当前的运行环境。`true`表示在生产环境，`false`表示在开发环境（默认为`false`）从而实现代码无删改上线。对设置了第二个参数的`mock`调用，全局配置不起作用。
 
 ```javascript
 const arr = new IPA([Number, 'len']);
 arr.mock(); // [7, 1, 5, 8, 3]（随机值）
 arr.mock({ len: 3 }); // [4, 6, 8]（给定长度）
 
-IPA.isProductionEnv = true;
+IPA.isProductionEnv = true; // 通过webpack等配置
 
 arr.mock(); // []
 arr.mock({ len: 3 }); // [0, 0, 0]
 ```
 
-全局生产环境的配置使得mock方法也可以在线上代码中出现，而不必在上线前删除。通过恰当地配合MV*框架来使用，甚至可以实现从开发到生产的平滑过渡，无需对包含大量mock方法的代码进行任何上线前的修改。详见[与MV*框架的配合使用](#/doc#工程化-与MV*框架的配合使用)
+
 
 ### 实例的全局注入与调用
 
@@ -745,7 +941,7 @@ Ajax.get(url).then(
 
 ```
 
-IPA的一个重要的使用场景是在端对端项目中用于校验和保障来自另一端的数据。IPA的全局注入功能使得对API接口的数据保障进行集中管理成为可能。如下：
+IPA的一个重要的使用场景是在端对端项目中用于校验和保障来自另一端的数据。IPA的全局注入功能使得对API接口数据结构的“集中声明分散调用”和“分散声明集中调用”的使用方式更简便。
 
 ```javascript
 // API.js
@@ -768,55 +964,4 @@ Ajax.get(url).then(
         this.data = IPA.getInstance(url).guarantee(res.data);
     }
 );
-```
-
-### 与MV*框架的配合使用
-
-IPA目前针对vue.js框架进行了工程化优化：
-
-#### mock的使用
-
-mock主要被用在组件间属性传递和ajax请求返回中。
-对于前者，若上游组件还在同步开发阶段，可以在props中使用：
-
-```javascript
-// ...
-props: {
-    data: {
-        validator: (v) => dataSchema.check(v),
-        default: () => dataSchema.mock(),
-    },
-},
-// ...
-```
-
-对于后者，若另一端接口还在开发阶段，可以在Promise的reject回调中使用：
- 
-```javascript
-// ...
-
-promise.then(res => {
-    this.data = dataSchema.guarantee(res.data); // 或用check
-    // 其他操作
-}, err => {
-    this.data = dataSchema.mock();
-    // 其他报错处理
-});
-
-// ...
-```
- 
- 对以上两种用法，均可以直接通过`IPA.isProductionEnv = true`的全局设置实现无改动上线。
- 
-
-#### 全局注入语法糖
-
-通过`Vue.use(IPA)`可以将IPA的`getInstance`方法全局挂载到vue实例下的`$ipa`属性上，从而简化全局调用的语法。
-
-```javascript
-// API.js
-IPA.inject('schema', template);
-
-// App.vue
-this.$ipa('schema').check
 ```
