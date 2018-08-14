@@ -735,10 +735,10 @@ each.mock({}, true); // [0, '']
 由于预编译的特性，IPA不能直接接受包含循环引用的对象作为数据结构声明。可以通过`IPA.recurse`来表示一个具有任意深度的树状递归结构：
 
 ``` js
-const tree = new IPA(IPA.recurse([
+const tree = new IPA(IPA.recurse([{
     value: Number,
     children: '$$'
-]));
+}]));
 ```
 
 递归结构的第二个参数是递归的配置项，结构如下:
@@ -849,7 +849,7 @@ const validators = {
             thead: [String, 'cols'],
             tbody: [[Number, 'cols']],
         },
-          'isEditable?': Boolean,  
+        'isEditable?': Boolean,  
     },
 };
 
