@@ -52,10 +52,10 @@ new IPA([{
 
 ``` js
 new IPA({
-	name: String,
+    name: String,
     'height?': Number,
     'weight?': Number,
-   	'age?': Number,
+    'age?': Number,
 });
 ```
 
@@ -137,8 +137,8 @@ validator.guarantee([{
 
 // 返回：
 // [{ 
-// 		name: 'George Harrison,
-// 		age: 19,
+//     name: 'George Harrison,
+//     age: 19,
 // }];
 ```
 
@@ -151,8 +151,8 @@ validator.mock({ len: 1 });
 
 // 返回：
 // [{
-// 		name: 'et',
-//		age: 8,
+//     name: 'et',
+//     age: 8,
 // }]
 ```
 
@@ -178,14 +178,14 @@ instance.check('12', (err) => console.log('from method: ', err));
 
 // 控台输出:
 // from method: exceptions: Object {input: "should be a number"}
-// 				input: "12"
-// 				method: "check"
+//              input: "12"
+//              method: "check"
 // from instance: exceptions: Object {input: "should be a number"}
-// 				  input: "12"
-// 				  method: "check"
+//              input: "12"
+//              method: "check"
 // from global: exceptions: Object {input: "should be a number"}
-// 				input: "12"
-// 				method: "check"
+//              input: "12"
+//              method: "check"
 ```
 
 
@@ -204,11 +204,11 @@ instance.check('12', (err) => console.log('from method: ', err));
 
 // 控台输出:
 // from method: exceptions: Object {input: "should be a number"}
-// 				input: "12"
-// 				method: "check"
+//              input: "12"
+//              method: "check"
 // from instance: exceptions: Object {input: "should be a number"}
-// 				  input: "12"
-// 				  method: "check"
+//                input: "12"
+//                method: "check"
 ```
 
 

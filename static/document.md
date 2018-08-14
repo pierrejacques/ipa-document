@@ -33,10 +33,10 @@ guarantee方法接受3个输入参数，其中首个必填：
 guarantee(
     input: any,
     options?: { 
-    	copy?: boolean = true,
-    	strict?: boolean = false,
+        copy?: boolean = true,
+        strict?: boolean = false,
     },
-	onError?: IPAError => void,
+    onError?: IPAError => void,
 )
 ```
 
@@ -423,7 +423,7 @@ const obj = new IPA({
 });
 
 obj.check({
-	requiredProp: 12,
+    requiredProp: 12,
     unrequiredProp: null,
 }); // true
 ```
@@ -519,7 +519,7 @@ const schema = new IPA([[Number, 'cols'], 'rows']);
         name: String,
         value: 0,
         amount: IPA.Integer,
-	}],
+    }],
 }
 ```
 
@@ -849,7 +849,7 @@ const validators = {
             thead: [String, 'cols'],
             tbody: [[Number, 'cols']],
         },
-      	'isEditable?': Boolean,  
+          'isEditable?': Boolean,  
     },
 };
 
