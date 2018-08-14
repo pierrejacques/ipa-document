@@ -2903,9 +2903,9 @@ ip@^1.1.0, ip@^1.1.5:
   version "1.1.5"
   resolved "http://r.npm.sankuai.com/ip/download/ip-1.1.5.tgz#bdded70114290828c0a039e72ef25f5aaec4354a"
 
-ipa.js@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.npmjs.org/ipa.js/-/ipa.js-3.2.0.tgz#09b6481fbb2fee486b097abb8d790fcbe6aab2f5"
+ipa.js@4.2.0:
+  version "4.2.0"
+  resolved "http://r.npm.sankuai.com/ipa.js/download/ipa.js-4.2.0.tgz#8346c1efde5964d81d81431fd6e0644e984885f4"
   dependencies:
     lodash "^4.17.5"
 
