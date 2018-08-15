@@ -96,7 +96,6 @@ export default {
     .content {
         min-height: 100vh;
         margin: 35px @margin 0;
-        padding-top: 50px;
         background: white;
     }
 

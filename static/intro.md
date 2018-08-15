@@ -1,5 +1,3 @@
-### 安装
-
 ``` bash
 npm install ipa.js
 ```
